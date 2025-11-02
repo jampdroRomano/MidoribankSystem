@@ -76,7 +76,7 @@ Para utilizar a funcionalidade de Recuperação de Senha por Código, é necess�
 - Você deve informar um email GMAIL ```(GMAIL_USER)``` e uma Senha de App ```(GMAIL_PASSWORD)``` gerada na sua conta Google. Senhas comuns não funcionarão 
 ---
 
-⚠️ Pré-requisitos
+## ⚠️ Pré-requisitos
 
 - Java JDK  >= 17 
 - Apache Maven  >= 3.x
@@ -97,7 +97,6 @@ mvn clean install
 
 ## 💻 Como Rodar o Projeto
 
-### Banco de Dados:
 - Execute o script ```data/midoribank_database.sql``` apos criar o Schema midoribank no seu servidor MySQL.
 - Credenciais do Banco: Verifique se as credenciais do banco em ```src/main/java/com/midoribank/atm/dao/ConnectionFactory.java``` (usuário: root, senha: 1234) batem com as do seu servidor MySQL.
 - Configuração de Email: Siga os passos da seção 🔑 Configuração de Email.
