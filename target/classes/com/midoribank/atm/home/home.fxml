@@ -102,9 +102,9 @@
       </ImageView>
       <Pane fx:id="paneEncerrar" layoutX="794.0" layoutY="89.0" prefHeight="58.0" prefWidth="176.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-border-width: 2;">
          <children>
-            <Text fill="WHITE" layoutX="39.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Desligar">
+            <Text fill="WHITE" layoutX="62.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Sair">
                <font>
-                  <Font name="Montserrat Regular" size="24.0" />
+                  <Font name="Montserrat Regular" size="28.0" />
                </font>
             </Text>
          </children>

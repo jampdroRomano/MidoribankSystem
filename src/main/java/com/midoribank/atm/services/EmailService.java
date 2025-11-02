@@ -71,7 +71,7 @@ public class EmailService {
             message.setFrom(new InternetAddress(EMAIL_REMETENTE));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
             message.setSubject(assunto);
-            message.setText(corpoEmail);
+            message.setContent(corpoEmail, "text/html; charset=utf-8");
 
             Transport.send(message);
 

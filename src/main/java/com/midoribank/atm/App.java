@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 
@@ -24,6 +25,10 @@ public class App extends Application {
         rootPane.getChildren().add(splashScreen);
 
         scene = new Scene(rootPane, 1050, 750);
+
+        Image icon = new Image(App.class.getResourceAsStream("/com/midoribank/atm/splash/LogoIco.png"));
+        stage.getIcons().add(icon);
+        stage.setTitle("MidoriBank");
         stage.setScene(scene);
         stage.show();
     }
