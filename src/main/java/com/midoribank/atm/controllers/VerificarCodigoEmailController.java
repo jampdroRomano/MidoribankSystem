@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import java.util.concurrent.CompletableFuture;
 import javafx.util.Duration;
 
 public class VerificarCodigoEmailController {
@@ -109,9 +110,7 @@ public class VerificarCodigoEmailController {
             return;
         }
 
-        LoadingUtils.runWithLoading("Verificando código...", () -> {
-            boolean codigoValido = recuperacaoService.validarCodigo(email, codigo);
-
+        recuperacaoService.validarCodigo(email, codigo).thenAccept(codigoValido -> {
             Platform.runLater(() -> {
                 if (codigoValido) {
                     stopTimer();
@@ -141,14 +140,16 @@ public class VerificarCodigoEmailController {
             reenviarLabel.setText("Enviando...");
         }
 
-        LoadingUtils.runWithLoading("Enviando novo código...", () -> {
-            recuperacaoService.iniciarRecuperacao(email);
-
+        recuperacaoService.iniciarRecuperacao(email).thenAccept(sucesso -> {
             Platform.runLater(() -> {
-                if (reenviarLabel != null) {
-                    reenviarLabel.setText("Mandar outro código");
+                if (sucesso) {
+                    if (reenviarLabel != null) {
+                        reenviarLabel.setText("Mandar outro código");
+                    }
+                    startTimer();
+                } else {
+                    exibirMensagemErro("Não foi possível reenviar o código. Tente novamente mais tarde.");
                 }
-                startTimer();
             });
         });
     }

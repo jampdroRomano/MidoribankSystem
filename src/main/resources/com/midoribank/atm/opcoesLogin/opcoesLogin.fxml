@@ -112,5 +112,14 @@
             </InnerShadow>
          </effect>
       </Text>
+      <Pane fx:id="paneEncerrar" layoutX="695.0" layoutY="603.0" prefHeight="53.0" prefWidth="156.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-border-width: 2;">
+         <children>
+            <Text fill="WHITE" layoutX="32.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Encerrar">
+               <font>
+                  <Font name="Montserrat Regular" size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
    </children>
 </Pane>

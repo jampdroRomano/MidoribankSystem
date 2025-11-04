@@ -131,20 +131,14 @@ public class SessionManager {
         cadastroSenhaCartao = null;
     }
 
-    public static boolean salvarCadastroCompletoNoBanco() {
+    public static java.util.concurrent.CompletableFuture<Boolean> salvarCadastroCompletoNoBanco() {
         CadastroService cadastroService = new CadastroService();
 
-        boolean sucesso = cadastroService.realizarCadastroCompleto(
+        return cadastroService.realizarCadastroCompleto(
                 cadastroNome, cadastroEmail, cadastroSenhaConta,
                 cadastroAgencia, cadastroNumeroConta,
                 cadastroNumeroCartao, cadastroCVV, cadastroSenhaCartao
         );
-
-        if (sucesso) {
-            clearCadastroData();
-        }
-
-        return sucesso;
     }
 
     public static void setEmailRecuperacao(String email) {

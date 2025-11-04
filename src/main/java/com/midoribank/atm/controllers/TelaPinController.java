@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.Pane;
+import java.util.concurrent.CompletableFuture;
 import javafx.geometry.Pos;
 
 public class TelaPinController {
@@ -133,11 +134,10 @@ public class TelaPinController {
             if (senhaDigitada.equals(this.senhaCadastroTemporaria)) {
                 SessionManager.setCadastroSenhaCartao(senhaDigitada);
 
-                LoadingUtils.runWithLoading("Finalizando cadastro...", () -> {
-                    boolean sucesso = SessionManager.salvarCadastroCompletoNoBanco();
-
+                SessionManager.salvarCadastroCompletoNoBanco().thenAccept(sucesso -> {
                     Platform.runLater(() -> {
                         if(sucesso) {
+                            SessionManager.clearCadastroData();
                             exibirMensagemInfo("Sucesso", "Cadastro realizado! Faça o login.");
                             try {
                                 App.setRoot("Login");
@@ -178,7 +178,8 @@ public class TelaPinController {
 
         if (senhaCorreta) {
             executarOperacaoFinanceira();
-        } else {
+        }
+        else {
             exibirMensagemErro("Senha do cartão incorreta!");
             limparSenha();
         }
@@ -188,7 +189,7 @@ public class TelaPinController {
         String tipo = SessionManager.getCurrentTransactionType();
         double valor = SessionManager.getCurrentTransactionAmount();
         double saldoAtual = currentUser.getSaldo();
-        boolean sucessoNoBanco = false;
+        java.util.concurrent.CompletableFuture<Boolean> futuroSucesso;
 
         if ("Saque".equals(tipo)) {
             if (valor <= 0 || valor > saldoAtual) {
@@ -198,7 +199,7 @@ public class TelaPinController {
                 return;
             }
 
-            sucessoNoBanco = this.operacaoService.executarSaque(currentUser, valor);
+            futuroSucesso = this.operacaoService.executarSaque(currentUser, valor);
 
         } else if ("Depósito".equals(tipo)) {
             if (valor <= 0) {
@@ -208,33 +209,37 @@ public class TelaPinController {
                 return;
             }
 
-            sucessoNoBanco = this.operacaoService.executarDeposito(currentUser, valor);
+            futuroSucesso = this.operacaoService.executarDeposito(currentUser, valor);
 
         } else {
             exibirMensagemErro("Tipo de operação desconhecido: " + tipo);
             return;
         }
 
-        if (sucessoNoBanco) {
-            double novoSaldo;
-            if ("Saque".equals(tipo)) {
-                novoSaldo = saldoAtual - valor;
-            } else {
-                novoSaldo = saldoAtual + valor;
-            }
-            currentUser.setSaldo(novoSaldo);
+        futuroSucesso.thenAccept(sucessoNoBanco -> {
+            Platform.runLater(() -> {
+                if (sucessoNoBanco) {
+                    double novoSaldo;
+                    if ("Saque".equals(tipo)) {
+                        novoSaldo = saldoAtual - valor;
+                    } else {
+                        novoSaldo = saldoAtual + valor;
+                    }
+                    currentUser.setSaldo(novoSaldo);
 
-            try {
-                App.setRoot("ConclusaoOperacao");
-            } catch (IOException e) {
-                e.printStackTrace();
-                exibirMensagemErro("Não foi possível carregar a tela de conclusão.");
-            }
-        } else {
-            exibirMensagemErro("Falha de comunicação com o banco. A operação foi cancelada. Tente mais tarde.");
-            SessionManager.clearTransaction();
-            try { App.setRoot("home"); } catch (IOException e) { e.printStackTrace(); }
-        }
+                    try {
+                        App.setRoot("ConclusaoOperacao");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        exibirMensagemErro("Não foi possível carregar a tela de conclusão.");
+                    }
+                } else {
+                    exibirMensagemErro("Falha de comunicação com o banco. A operação foi cancelada. Tente mais tarde.");
+                    SessionManager.clearTransaction();
+                    try { App.setRoot("home"); } catch (IOException e) { e.printStackTrace(); }
+                }
+            });
+        });
     }
 
     private void adicionarDigito(String digito) {

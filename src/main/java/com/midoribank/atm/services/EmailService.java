@@ -52,36 +52,38 @@ public class EmailService {
         }
     }
 
-    public boolean enviarEmail(String destinatario, String assunto, String corpoEmail) {
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", SMTP_HOST);
-        props.put("mail.smtp.port", SMTP_PORT);
+    public java.util.concurrent.CompletableFuture<Boolean> enviarEmail(String destinatario, String assunto, String corpoEmail) {
+        return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Enviando email...", () -> {
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", SMTP_HOST);
+            props.put("mail.smtp.port", SMTP_PORT);
 
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(EMAIL_REMETENTE, SENHA_REMETENTE);
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(EMAIL_REMETENTE, SENHA_REMETENTE);
+                }
+            });
+
+            try {
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(EMAIL_REMETENTE));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
+                message.setSubject(assunto);
+                message.setContent(corpoEmail, "text/html; charset=utf-8");
+
+                Transport.send(message);
+
+                System.out.println("Email enviado com sucesso para: " + destinatario);
+                return true;
+
+            } catch (MessagingException e) {
+                System.err.println("Erro ao enviar e-mail: " + e.getMessage());
+                e.printStackTrace();
+                return false;
             }
         });
-
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(EMAIL_REMETENTE));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
-            message.setSubject(assunto);
-            message.setContent(corpoEmail, "text/html; charset=utf-8");
-
-            Transport.send(message);
-
-            System.out.println("Email enviado com sucesso para: " + destinatario);
-            return true;
-
-        } catch (MessagingException e) {
-            System.err.println("Erro ao enviar e-mail: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
     }
 }

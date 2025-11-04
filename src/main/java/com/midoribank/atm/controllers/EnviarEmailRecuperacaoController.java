@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import java.util.concurrent.CompletableFuture;
 import javafx.scene.control.Button;
 
 public class EnviarEmailRecuperacaoController {
@@ -48,14 +49,17 @@ public class EnviarEmailRecuperacaoController {
         SessionManager.clearRecuperacao();
         SessionManager.setEmailRecuperacao(email);
 
-        LoadingUtils.runWithLoading("Enviando código...", () -> {
-            recuperacaoService.iniciarRecuperacao(email);
-
+        recuperacaoService.iniciarRecuperacao(email).thenAccept(sucesso -> {
             Platform.runLater(() -> {
-                try {
-                    App.setRoot("VerificarCodigoEmail");
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (sucesso) {
+                    try {
+                        App.setRoot("VerificarCodigoEmail");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        exibirMensagemErro("Erro ao carregar a próxima tela.");
+                    }
+                } else {
+                    exibirMensagemErro("Falha ao enviar o código. Verifique o e-mail e tente novamente.");
                 }
             });
         });
@@ -64,6 +68,14 @@ public class EnviarEmailRecuperacaoController {
     @FXML
     private void handleVoltar() throws IOException {
         App.setRoot("Login");
+    }
+
+    private void exibirMensagemErro(String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 
     private void exibirMensagemInfo(String titulo, String mensagem) {

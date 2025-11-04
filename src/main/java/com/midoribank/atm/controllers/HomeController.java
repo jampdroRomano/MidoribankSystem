@@ -110,8 +110,20 @@ public class HomeController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            System.out.println("Encerrando a aplicação...");
-            Platform.exit();
+            com.midoribank.atm.utils.LoadingUtils.runWithLoading("Encerrando sessão...", () -> {
+                try {
+                    Thread.sleep(1000);
+                    javafx.application.Platform.runLater(() -> {
+                        try {
+                            com.midoribank.atm.App.setRoot("opcoesLogin");
+                        } catch (java.io.IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 
