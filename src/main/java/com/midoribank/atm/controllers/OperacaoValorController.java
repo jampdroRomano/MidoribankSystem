@@ -6,10 +6,11 @@ import com.midoribank.atm.services.SessionManager;
 import com.midoribank.atm.utils.AnimationUtils;
 import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.animation.PauseTransition;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 public class OperacaoValorController {
 
@@ -25,6 +26,7 @@ public class OperacaoValorController {
     @FXML private Pane paneCancelar;
     @FXML private Pane paneApagar;
     @FXML private Pane paneLimpar;
+    @FXML private Label labelErro;
 
     private UserProfile currentUser;
     private String tipoOperacao;
@@ -36,6 +38,7 @@ public class OperacaoValorController {
 
         carregarDadosUsuario();
         configurarEventos();
+        labelErro.setOpacity(0);
     }
 
     private void carregarDadosUsuario() {
@@ -50,15 +53,39 @@ public class OperacaoValorController {
     }
 
     private void configurarEventos() {
-        paneVinte.setOnMouseClicked(e -> adicionarValor(20.0));
-        paneCinquenta.setOnMouseClicked(e -> adicionarValor(50.0));
-        paneCem.setOnMouseClicked(e -> adicionarValor(100.0));
-        paneDuzentos.setOnMouseClicked(e -> adicionarValor(200.0));
+        paneVinte.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneVinte);
+            adicionarValor(20.0);
+        });
+        paneCinquenta.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneCinquenta);
+            adicionarValor(50.0);
+        });
+        paneCem.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneCem);
+            adicionarValor(100.0);
+        });
+        paneDuzentos.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneDuzentos);
+            adicionarValor(200.0);
+        });
 
-        paneApagar.setOnMouseClicked(e -> handleApagar());
-        paneLimpar.setOnMouseClicked(e -> valorField.clear());
-        paneContinuar.setOnMouseClicked(e -> handleContinuar());
-        paneCancelar.setOnMouseClicked(e -> handleVoltar());
+        paneApagar.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneApagar);
+            handleApagar();
+        });
+        paneLimpar.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneLimpar);
+            valorField.clear();
+        });
+        paneContinuar.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneContinuar);
+            handleContinuar();
+        });
+        paneCancelar.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneCancelar);
+            handleVoltar();
+        });
 
         AnimationUtils.setupNodeHoverEffects(paneVinte);
         AnimationUtils.setupNodeHoverEffects(paneCinquenta);
@@ -138,10 +165,12 @@ public class OperacaoValorController {
     }
 
     private void exibirMensagemErro(String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro na Operação");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
+        AnimationUtils.errorAnimation(valorField);
+        labelErro.setText(mensagem);
+        AnimationUtils.fadeIn(labelErro, 200);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> AnimationUtils.fadeOut(labelErro, 200));
+        pause.play();
     }
 }

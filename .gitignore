@@ -1,5 +1,6 @@
 out/*
 /target/
+target/
 # Arquivos de Log
 *.log
 logs/

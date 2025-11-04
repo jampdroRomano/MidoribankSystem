@@ -79,6 +79,11 @@
             <Insets left="50.0" />
          </padding>
       </TextField>
+      <Label fx:id="labelErro" layoutX="361.0" layoutY="279.0" text="Label" textFill="#ff0000">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
       <Pane fx:id="paneVinte" layoutX="346.0" layoutY="279.0" prefHeight="131.0" prefWidth="284.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15;">
          <children>
             <Text layoutX="82.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="R$ 20">
@@ -157,5 +162,10 @@
             </InnerShadow>
          </effect>
       </Text>
+      <Label fx:id="labelErro" alignment="CENTER" contentDisplay="CENTER" layoutX="348.0" layoutY="138.0" prefHeight="35.0" prefWidth="632.0" style="-fx-font-weight: bold;" textFill="RED">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

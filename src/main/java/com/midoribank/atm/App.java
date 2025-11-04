@@ -26,7 +26,7 @@ public class App extends Application {
 
         scene = new Scene(rootPane, 1050, 750);
 
-        Image icon = new Image(App.class.getResourceAsStream("/com/midoribank/atm/splash/LogoIco.png"));
+        Image icon = new Image(App.class.getResourceAsStream("/com/midoribank/atm/splash/LogoIcon.png"));
         stage.getIcons().add(icon);
         stage.setTitle("MidoriBank");
         stage.setScene(scene);
