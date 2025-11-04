@@ -7,10 +7,12 @@ import com.midoribank.atm.services.SessionManager;
 import com.midoribank.atm.utils.AnimationUtils;
 import com.midoribank.atm.utils.LoadingUtils;
 import java.io.IOException;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 public class TransferenciaController {
 
@@ -53,8 +55,14 @@ public class TransferenciaController {
     }
 
     private void configurarEventos() {
-        paneVoltar.setOnMouseClicked(e -> handleVoltar());
-        paneContinuar.setOnMouseClicked(e -> handleContinuar());
+        paneVoltar.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneVoltar);
+            handleVoltar();
+        });
+        paneContinuar.setOnMouseClicked(e -> {
+            AnimationUtils.buttonClickAnimation(paneContinuar);
+            handleContinuar();
+        });
         AnimationUtils.setupNodeHoverEffects(paneVoltar);
         AnimationUtils.setupNodeHoverEffects(paneContinuar);
     }
@@ -73,22 +81,26 @@ public class TransferenciaController {
 
         if (fieldAgencia.getText().trim().isEmpty()) {
             errorLabelAgencia.setText("Agência é obrigatória.");
-            errorLabelAgencia.setVisible(true);
+            AnimationUtils.errorAnimation(fieldAgencia);
+            AnimationUtils.fadeIn(errorLabelAgencia, 200);
             valido = false;
         }
         if (fieldDigitoAgencia.getText().trim().isEmpty()) {
             errorLabelDigitoAgencia.setText("Dígito é obrigatório.");
-            errorLabelDigitoAgencia.setVisible(true);
+            AnimationUtils.errorAnimation(fieldDigitoAgencia);
+            AnimationUtils.fadeIn(errorLabelDigitoAgencia, 200);
             valido = false;
         }
         if (fieldConta.getText().trim().isEmpty()) {
             errorLabelConta.setText("Conta é obrigatória.");
-            errorLabelConta.setVisible(true);
+            AnimationUtils.errorAnimation(fieldConta);
+            AnimationUtils.fadeIn(errorLabelConta, 200);
             valido = false;
         }
         if (fieldDigitoConta.getText().trim().isEmpty()) {
             errorLabelDigitoConta.setText("Dígito é obrigatório.");
-            errorLabelDigitoConta.setVisible(true);
+            AnimationUtils.errorAnimation(fieldDigitoConta);
+            AnimationUtils.fadeIn(errorLabelDigitoConta, 200);
             valido = false;
         }
 
@@ -135,6 +147,11 @@ public class TransferenciaController {
 
     private void exibirErroGeral(String mensagem) {
         labelErroGeral.setText(mensagem);
-        labelErroGeral.setVisible(true);
+        AnimationUtils.errorAnimation(rootPane);
+        AnimationUtils.fadeIn(labelErroGeral, 200);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> AnimationUtils.fadeOut(labelErroGeral, 200));
+        pause.play();
     }
 }

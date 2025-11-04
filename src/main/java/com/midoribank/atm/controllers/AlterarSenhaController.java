@@ -6,6 +6,7 @@ import com.midoribank.atm.services.SessionManager;
 import com.midoribank.atm.utils.AnimationUtils;
 import com.midoribank.atm.utils.LoadingUtils;
 import java.io.IOException;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 public class AlterarSenhaController {
 
@@ -34,6 +36,21 @@ public class AlterarSenhaController {
         this.recuperacaoService = new RecuperacaoSenhaService();
         AnimationUtils.setupButtonHoverEffects(redefinirButton);
         AnimationUtils.setupNodeHoverEffects(btnVoltar);
+        errorLabel.setOpacity(0);
+
+        redefinirButton.setOnAction(event -> {
+            AnimationUtils.buttonClickAnimation(redefinirButton);
+            handleRedefinirSenha();
+        });
+
+        btnVoltar.setOnMouseClicked(event -> {
+            AnimationUtils.buttonClickAnimation(btnVoltar);
+            try {
+                handleVoltar();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @FXML
@@ -52,20 +69,20 @@ public class AlterarSenhaController {
         }
 
         if (novaSenha.isEmpty() || confirmarSenha.isEmpty()) {
-            errorLabel.setText("Por favor, preencha ambos os campos.");
+            exibirMensagemErro("Por favor, preencha ambos os campos.");
             AnimationUtils.errorAnimation(novaSenhaField);
             AnimationUtils.errorAnimation(confirmarSenhaField);
             return;
         }
 
         if (novaSenha.length() < 6) {
-            errorLabel.setText("A senha deve ter pelo menos 6 caracteres.");
+            exibirMensagemErro("A senha deve ter pelo menos 6 caracteres.");
             AnimationUtils.errorAnimation(novaSenhaField);
             return;
         }
 
         if (!novaSenha.equals(confirmarSenha)) {
-            errorLabel.setText("As senhas não conferem.");
+            exibirMensagemErro("As senhas não conferem.");
             AnimationUtils.errorAnimation(novaSenhaField);
             AnimationUtils.errorAnimation(confirmarSenhaField);
             return;
@@ -97,11 +114,13 @@ public class AlterarSenhaController {
     }
 
     private void exibirMensagemErro(String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
+        errorLabel.setText(mensagem);
+        AnimationUtils.fadeIn(errorLabel, 200);
+        AnimationUtils.errorAnimation(errorLabel);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> AnimationUtils.fadeOut(errorLabel, 200));
+        pause.play();
     }
 
     private void exibirMensagemInfo(String titulo, String mensagem) {
