@@ -17,93 +17,97 @@ public class OperacaoService {
         this.movimentacaoDAO = new MovimentacaoDAO();
     }
 
-    public boolean executarSaque(UserProfile user, double valor) {
-        Connection conn = null;
-        try {
-            conn = ConnectionFactory.getConnection();
-            conn.setAutoCommit(false);
-
-            double novoSaldo = user.getSaldo() - valor;
-
-            boolean saldoAtualizado = contaDAO.atualizarSaldo(user.getNumeroConta(), novoSaldo, conn);
-
-            boolean movimentacaoRegistrada = movimentacaoDAO.registrarMovimentacao(
-                    conn,
-                    user.getContaId(),
-                    MovimentacaoDAO.TipoMovimentacao.SAQUE,
-                    valor,
-                    null
-            );
-
-            if (saldoAtualizado && movimentacaoRegistrada) {
-                conn.commit();
-                return true;
-            } else {
-                throw new SQLException("Falha ao registrar saque, revertendo.");
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Erro na transação de saque: " + e.getMessage());
+    public java.util.concurrent.CompletableFuture<Boolean> executarSaque(UserProfile user, double valor) {
+        return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Realizando saque...", () -> {
+            Connection conn = null;
             try {
-                if (conn != null) conn.rollback();
-            } catch (SQLException ex) {
-                System.err.println("Erro ao reverter transação: " + ex.getMessage());
-            }
-            return false;
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.setAutoCommit(true);
-                    conn.close();
+                conn = ConnectionFactory.getConnection();
+                conn.setAutoCommit(false);
+
+                double novoSaldo = user.getSaldo() - valor;
+
+                boolean saldoAtualizado = contaDAO.atualizarSaldo(user.getNumeroConta(), novoSaldo, conn);
+
+                boolean movimentacaoRegistrada = movimentacaoDAO.registrarMovimentacao(
+                        conn,
+                        user.getContaId(),
+                        MovimentacaoDAO.TipoMovimentacao.SAQUE,
+                        valor,
+                        null
+                );
+
+                if (saldoAtualizado && movimentacaoRegistrada) {
+                    conn.commit();
+                    return true;
+                } else {
+                    throw new SQLException("Falha ao registrar saque, revertendo.");
                 }
+
             } catch (SQLException e) {
-                System.err.println("Erro ao fechar conexão: " + e.getMessage());
+                System.err.println("Erro na transação de saque: " + e.getMessage());
+                try {
+                    if (conn != null) conn.rollback();
+                } catch (SQLException ex) {
+                    System.err.println("Erro ao reverter transação: " + ex.getMessage());
+                }
+                return false;
+            } finally {
+                try {
+                    if (conn != null) {
+                        conn.setAutoCommit(true);
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    System.err.println("Erro ao fechar conexão: " + e.getMessage());
+                }
             }
-        }
+        });
     }
 
-    public boolean executarDeposito(UserProfile user, double valor) {
-        Connection conn = null;
-        try {
-            conn = ConnectionFactory.getConnection();
-            conn.setAutoCommit(false);
-
-            double novoSaldo = user.getSaldo() + valor;
-
-            boolean saldoAtualizado = contaDAO.atualizarSaldo(user.getNumeroConta(), novoSaldo, conn);
-
-            boolean movimentacaoRegistrada = movimentacaoDAO.registrarMovimentacao(
-                    conn,
-                    user.getContaId(),
-                    MovimentacaoDAO.TipoMovimentacao.DEPOSITO,
-                    valor,
-                    null
-            );
-
-            if (saldoAtualizado && movimentacaoRegistrada) {
-                conn.commit();
-                return true;
-            } else {
-                throw new SQLException("Falha ao registrar depósito, revertendo.");
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Erro na transação de depósito: " + e.getMessage());
+    public java.util.concurrent.CompletableFuture<Boolean> executarDeposito(UserProfile user, double valor) {
+        return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Realizando depósito...", () -> {
+            Connection conn = null;
             try {
-                if (conn != null) conn.rollback();
-            } catch (SQLException ex) {
-                System.err.println("Erro ao reverter transação: " + ex.getMessage());
-            }
-            return false;
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.setAutoCommit(true);
-                    conn.close();
+                conn = ConnectionFactory.getConnection();
+                conn.setAutoCommit(false);
+
+                double novoSaldo = user.getSaldo() + valor;
+
+                boolean saldoAtualizado = contaDAO.atualizarSaldo(user.getNumeroConta(), novoSaldo, conn);
+
+                boolean movimentacaoRegistrada = movimentacaoDAO.registrarMovimentacao(
+                        conn,
+                        user.getContaId(),
+                        MovimentacaoDAO.TipoMovimentacao.DEPOSITO,
+                        valor,
+                        null
+                );
+
+                if (saldoAtualizado && movimentacaoRegistrada) {
+                    conn.commit();
+                    return true;
+                } else {
+                    throw new SQLException("Falha ao registrar depósito, revertendo.");
                 }
+
             } catch (SQLException e) {
-                System.err.println("Erro ao fechar conexão: " + e.getMessage());
+                System.err.println("Erro na transação de depósito: " + e.getMessage());
+                try {
+                    if (conn != null) conn.rollback();
+                } catch (SQLException ex) {
+                    System.err.println("Erro ao reverter transação: " + ex.getMessage());
+                }
+                return false;
+            } finally {
+                try {
+                    if (conn != null) {
+                        conn.setAutoCommit(true);
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    System.err.println("Erro ao fechar conexão: " + e.getMessage());
+                }
             }
-        }
+        });
     }
 }

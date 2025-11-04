@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
+import java.util.concurrent.CompletableFuture;
 import javafx.util.Duration;
 
 public class AlterarSenhaController {
@@ -88,9 +89,7 @@ public class AlterarSenhaController {
             return;
         }
 
-        LoadingUtils.runWithLoading("Atualizando senha...", () -> {
-            boolean sucesso = recuperacaoService.redefinirSenha(email, novaSenha);
-
+        recuperacaoService.redefinirSenha(email, novaSenha).thenAccept(sucesso -> {
             Platform.runLater(() -> {
                 if (sucesso) {
                     exibirMensagemInfo("Sucesso", "Sua senha foi redefinida. Por favor, faça o login.");

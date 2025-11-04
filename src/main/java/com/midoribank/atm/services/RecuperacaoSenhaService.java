@@ -61,53 +61,59 @@ public class RecuperacaoSenhaService {
         );
     }
 
-    public boolean iniciarRecuperacao(String email) {
-        UserProfile user = userDAO.getProfileBasico(email);
+    public java.util.concurrent.CompletableFuture<Boolean> iniciarRecuperacao(String email) {
+        return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Enviando código...", () -> {
+            UserProfile user = userDAO.getProfileBasico(email);
 
-        if (user == null) {
-            System.err.println("Tentativa de recuperação para e-mail não cadastrado: " + email);
-            return false;
-        }
+            if (user == null) {
+                System.err.println("Tentativa de recuperação para e-mail não cadastrado: " + email);
+                return false;
+            }
 
-        int usuarioId = user.getId();
-        String nome = user.getNome();
-        String codigo = gerarCodigoAleatorio();
-        LocalDateTime expiracao = LocalDateTime.now().plusMinutes(15);
-        String corpoEmail = criarCorpoEmail(nome, codigo);
-        String assunto = "MidoriBank - Código de Recuperação de Senha";
+            int usuarioId = user.getId();
+            String nome = user.getNome();
+            String codigo = gerarCodigoAleatorio();
+            LocalDateTime expiracao = LocalDateTime.now().plusMinutes(15);
+            String corpoEmail = criarCorpoEmail(nome, codigo);
+            String assunto = "MidoriBank - Código de Recuperação de Senha";
 
-        recuperacaoDAO.invalidarCodigosAntigos(usuarioId);
-
-        boolean salvoNoDb = recuperacaoDAO.salvarCodigo(usuarioId, codigo, expiracao);
-
-        if (salvoNoDb) {
-            return emailService.enviarEmail(email, assunto, corpoEmail);
-        } else {
-            System.err.println("Falha ao salvar o código no banco para o usuário: " + usuarioId);
-            return false;
-        }
-    }
-
-    public boolean validarCodigo(String email, String codigo) {
-        UserProfile user = userDAO.getProfileBasico(email);
-        if (user == null) {
-            return false;
-        }
-        return recuperacaoDAO.validarCodigo(user.getId(), codigo);
-    }
-
-    public boolean redefinirSenha(String email, String novaSenha) {
-        UserProfile user = userDAO.getProfileBasico(email);
-        if (user == null) {
-            return false;
-        }
-
-        int usuarioId = user.getId();
-        boolean sucesso = recuperacaoDAO.atualizarSenha(usuarioId, novaSenha);
-
-        if (sucesso) {
             recuperacaoDAO.invalidarCodigosAntigos(usuarioId);
-        }
-        return sucesso;
+
+            boolean salvoNoDb = recuperacaoDAO.salvarCodigo(usuarioId, codigo, expiracao);
+
+            if (salvoNoDb) {
+                return emailService.enviarEmail(email, assunto, corpoEmail).join(); // .join() para esperar o resultado
+            } else {
+                System.err.println("Falha ao salvar o código no banco para o usuário: " + usuarioId);
+                return false;
+            }
+        });
+    }
+
+    public java.util.concurrent.CompletableFuture<Boolean> validarCodigo(String email, String codigo) {
+        return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Validando código...", () -> {
+            UserProfile user = userDAO.getProfileBasico(email);
+            if (user == null) {
+                return false;
+            }
+            return recuperacaoDAO.validarCodigo(user.getId(), codigo);
+        });
+    }
+
+    public java.util.concurrent.CompletableFuture<Boolean> redefinirSenha(String email, String novaSenha) {
+        return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Redefinindo senha...", () -> {
+            UserProfile user = userDAO.getProfileBasico(email);
+            if (user == null) {
+                return false;
+            }
+
+            int usuarioId = user.getId();
+            boolean sucesso = recuperacaoDAO.atualizarSenha(usuarioId, novaSenha);
+
+            if (sucesso) {
+                recuperacaoDAO.invalidarCodigosAntigos(usuarioId);
+            }
+            return sucesso;
+        });
     }
 }

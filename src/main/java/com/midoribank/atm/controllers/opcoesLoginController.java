@@ -3,8 +3,10 @@ package com.midoribank.atm.controllers;
 import com.midoribank.atm.App;
 import com.midoribank.atm.utils.AnimationUtils;
 import java.io.IOException;
+import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
@@ -20,13 +22,20 @@ public class opcoesLoginController {
     private Pane recarga_celular;
 
     @FXML
+    private Pane paneEncerrar; // Adicionado o novo pane
+
+    @FXML
     public void initialize() {
         recarga_cartao.setOnMouseClicked(e -> showInDevelopmentAlert());
         recarga_celular.setOnMouseClicked(e -> showInDevelopmentAlert());
 
+        // Configuração do evento para o novo botão de encerrar
+        paneEncerrar.setOnMouseClicked(e -> handleEncerrar());
+
         AnimationUtils.setupNodeHoverEffects(entrar_conta);
         AnimationUtils.setupNodeHoverEffects(recarga_cartao);
         AnimationUtils.setupNodeHoverEffects(recarga_celular);
+        AnimationUtils.setupNodeHoverEffects(paneEncerrar); // Adiciona efeito de hover
     }
 
     @FXML
@@ -35,6 +44,20 @@ public class opcoesLoginController {
             App.setRoot("Login");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // Novo método para lidar com o encerramento da aplicação
+    private void handleEncerrar() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmação de Saída");
+        alert.setHeaderText("Você está prestes a fechar o aplicativo.");
+        alert.setContentText("Deseja realmente sair?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.out.println("Encerrando a aplicação...");
+            javafx.application.Platform.exit();
         }
     }
 
