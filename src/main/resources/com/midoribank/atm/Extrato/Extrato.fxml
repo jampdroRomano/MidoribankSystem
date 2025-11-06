@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" style="-fx-background-color: radial-gradient(center 55% 50%, radius 65%, #5a5062, #292530);" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.midoribank.atm.controllers.OperacaoValorController">
+
+   <children>
+
+      <Pane fx:id="paneContinuar" layoutX="570.0" layoutY="657.0" prefHeight="61.0" prefWidth="210.0" style="-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 4);">
+
+         <children>
+
+            <Text fill="WHITE" layoutX="69.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Voltar">
+
+               <font>
+
+                  <Font name="Montserrat Regular" size="24.0" />
+
+               </font>
+
+            </Text>
+
+         </children>
+
+      </Pane>
+
+      <Text fill="#737373" layoutX="55.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número da conta">
+
+         <font>
+
+            <Font size="18.0" />
+
+         </font>
+
+      </Text>
+
+      <Label fx:id="labelNumeroConta" layoutX="55.0" layoutY="399.0" prefHeight="46.0" prefWidth="294.0" text="12186520" textFill="WHITE">
+
+         <font>
+
+            <Font size="24.0" />
+
+         </font>
+
+      </Label>
+
+      <Text fill="#737373" layoutX="55.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saldo">
+
+         <font>
+
+            <Font size="18.0" />
+
+         </font>
+
+      </Text>
+
+      <Label fx:id="labelSaldoAtual" layoutX="55.0" layoutY="305.0" prefHeight="46.0" prefWidth="278.0" text="R$ 380,00" textFill="WHITE">
+
+         <font>
+
+            <Font size="24.0" />
+
+         </font>
+
+      </Label>
+
+      <ImageView fitHeight="41.0" fitWidth="32.0" layoutX="39.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+
+         <image>
+
+            <Image url="@../../Desktop/CURSOS/GITHUB/MidoribankATMSystem/MidoribankATMSystem/src/main/resources/com/midoribank/atm/OperacaoValor/logotipo.png" />
+
+         </image>
+
+      </ImageView>
+
+      <Label fx:id="labelTituloOperacao" layoutX="58.0" layoutY="204.0" text="Operação" textFill="WHITE">
+
+         <font>
+
+            <Font size="36.0" />
+
+         </font>
+
+      </Label>
+
+      <Text fill="WHITE" layoutX="96.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Midori">
+
+         <font>
+
+            <Font name="Montserrat ExtraBold" size="40.0" />
+
+         </font>
+
+         <effect>
+
+            <InnerShadow offsetY="4.0">
+
+               <color>
+
+                  <Color opacity="0.25" />
+
+               </color>
+
+            </InnerShadow>
+
+         </effect>
+
+      </Text>
+
+      <Text fill="#14ff00" layoutX="220.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Bank">
+
+         <font>
+
+            <Font name="Montserrat ExtraBold" size="40.0" />
+
+         </font>
+
+         <effect>
+
+            <InnerShadow offsetY="4.0">
+
+               <color>
+
+                  <Color opacity="0.25" />
+
+               </color>
+
+            </InnerShadow>
+
+         </effect>
+
+      </Text>
+
+            <Pane layoutX="392.0" layoutY="112.0" prefHeight="53.0" prefWidth="272.0" style="-fx-background-color: white; -fx-background-radius: 20 0 0 20;">
+         <children>
+            <Text fill="#737373" layoutX="59.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meu Historico" textAlignment="CENTER" wrappingWidth="154.001953125">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+
+      <Pane layoutX="664.0" layoutY="112.0" prefHeight="53.0" prefWidth="272.0" style="-fx-background-color: #0DA900; -fx-background-radius: 0 20 20 0;">
+         <children>
+            <Text fill="WHITE" layoutX="58.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exportar extrato" textAlignment="CENTER">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+         </children>
+         </Pane>
+      <Pane layoutX="393.0" layoutY="203.0" prefHeight="392.0" prefWidth="542.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+         <children>
+            <Label layoutX="40.0" layoutY="23.0" prefHeight="27.0" prefWidth="463.0" style="-fx-font-weight: medium;" text="06 de novembro de 2025">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="42.0" layoutY="50.0" prefHeight="27.0" prefWidth="463.0" style="-fx-font-weight: medium;" text="06 de novembro de 2025" textFill="#737373">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="128.0" layoutY="99.0" prefHeight="27.0" prefWidth="233.0" style="-fx-font-weight: medium;" text="Saque" textFill="#737373">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="130.0" layoutY="126.0" prefHeight="27.0" prefWidth="411.0" style="-fx-font-weight: medium;" text="Conta 1234">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="136.0" layoutY="153.0" prefHeight="27.0" prefWidth="233.0" style="-fx-font-weight: medium;" text="- R$ 20,00" textFill="#737373">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Line endX="334.0" layoutX="172.0" layoutY="194.0" startX="-135.0" stroke="#737373" />
+            <Label layoutX="128.0" layoutY="209.0" prefHeight="27.0" prefWidth="233.0" style="-fx-font-weight: medium;" text="Saque" textFill="#737373">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="130.0" layoutY="236.0" prefHeight="27.0" prefWidth="380.0" style="-fx-font-weight: medium;" text="Conta 1234">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="136.0" layoutY="263.0" prefHeight="27.0" prefWidth="233.0" style="-fx-font-weight: medium;" text="- R$ 20,00" textFill="#737373">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Line endX="334.0" layoutX="172.0" layoutY="304.0" startX="-135.0" stroke="#737373" />
+            <Label layoutX="37.0" layoutY="314.0" prefHeight="27.0" prefWidth="463.0" style="-fx-font-weight: medium;" text="06 de novembro de 2025">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="39.0" layoutY="341.0" prefHeight="27.0" prefWidth="463.0" style="-fx-font-weight: medium;" text="06 de novembro de 2025" textFill="#737373">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="27.0" fitWidth="32.0" layoutX="55.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Component%2012.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="27.0" fitWidth="32.0" layoutX="55.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Component%2030.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <ScrollBar layoutX="965.0" layoutY="208.0" orientation="VERTICAL" prefHeight="381.0" prefWidth="14.0" />
+      <Line endX="441.0" layoutX="493.0" layoutY="189.0" startX="-100.0" stroke="#737373" />
+
+   </children>
+
+</Pane>
