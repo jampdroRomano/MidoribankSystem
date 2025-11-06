@@ -103,12 +103,13 @@ public class SessionManager {
         cadastroSenhaConta = senha;
     }
 
-    public static void setCadastroCartao(String numeroCartao, String cvv) {
+   public static void setCadastroCartao(String numeroCartao, String cvv) {
         cadastroNumeroCartao = numeroCartao;
         cadastroCVV = cvv;
 
         Random rand = new Random();
-        cadastroAgencia = String.format("%04d", rand.nextInt(10000));
+        cadastroAgencia = String.format("%04d-%d", rand.nextInt(10000), rand.nextInt(10)); 
+        
         cadastroNumeroConta = String.format("%05d-%d", rand.nextInt(100000), rand.nextInt(10));
     }
 

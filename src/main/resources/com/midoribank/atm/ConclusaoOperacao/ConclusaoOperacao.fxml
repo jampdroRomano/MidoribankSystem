@@ -55,12 +55,12 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="labelMensagemSucesso" layoutX="392.0" layoutY="303.0" style="-fx-font-weight: bold;" text="Saque concluído com sucesso!" textFill="WHITE">
+      <Label fx:id="labelMensagemSucesso" alignment="CENTER" contentDisplay="CENTER" layoutX="251.0" layoutY="302.0" prefHeight="53.0" prefWidth="792.0" style="-fx-font-weight: bold;" text="Saque concluído com sucesso!" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Label fx:id="labelPergunta" layoutX="499.0" layoutY="365.0" text="Deseja realizar outro saque?" textFill="WHITE">
+      <Label fx:id="labelPergunta" alignment="CENTER" contentDisplay="CENTER" layoutX="328.0" layoutY="360.0" prefHeight="35.0" prefWidth="637.0" text="Deseja realizar outro saque?" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font>

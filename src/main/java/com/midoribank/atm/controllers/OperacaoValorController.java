@@ -120,11 +120,7 @@ public class OperacaoValorController {
 
             SessionManager.setCurrentTransaction(valor, this.tipoOperacao);
 
-            if (tipoOperacao.equals("Transferencia")) {
-                App.setRoot("TelaPin");
-            } else {
-                App.setRoot("confirmar-operacao");
-            }
+            App.setRoot("confirmar-operacao");
 
         } catch (NumberFormatException e) {
             exibirMensagemErro("Valor inválido. Por favor, insira apenas números.");
