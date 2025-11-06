@@ -7,6 +7,7 @@ import com.midoribank.atm.services.SessionManager;
 import com.midoribank.atm.utils.AnimationUtils;
 import com.midoribank.atm.utils.LoadingUtils;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -21,6 +22,11 @@ public class TransferenciaController {
     @FXML private TextField fieldDigitoAgencia;
     @FXML private TextField fieldConta;
     @FXML private TextField fieldDigitoConta;
+
+    @FXML private Pane paneAgencia;
+    @FXML private Pane paneDigitoAgencia;
+    @FXML private Pane paneConta;
+    @FXML private Pane paneDigitoConta;
 
     @FXML private Pane paneContinuar;
     @FXML private Pane paneVoltar;
@@ -81,25 +87,25 @@ public class TransferenciaController {
 
         if (fieldAgencia.getText().trim().isEmpty()) {
             errorLabelAgencia.setText("Agência é obrigatória.");
-            AnimationUtils.errorAnimation(fieldAgencia);
+            AnimationUtils.errorAnimation(paneAgencia);
             AnimationUtils.fadeIn(errorLabelAgencia, 200);
             valido = false;
         }
         if (fieldDigitoAgencia.getText().trim().isEmpty()) {
             errorLabelDigitoAgencia.setText("Dígito é obrigatório.");
-            AnimationUtils.errorAnimation(fieldDigitoAgencia);
+            AnimationUtils.errorAnimation(paneDigitoAgencia);
             AnimationUtils.fadeIn(errorLabelDigitoAgencia, 200);
             valido = false;
         }
         if (fieldConta.getText().trim().isEmpty()) {
             errorLabelConta.setText("Conta é obrigatória.");
-            AnimationUtils.errorAnimation(fieldConta);
+            AnimationUtils.errorAnimation(paneConta);
             AnimationUtils.fadeIn(errorLabelConta, 200);
             valido = false;
         }
         if (fieldDigitoConta.getText().trim().isEmpty()) {
             errorLabelDigitoConta.setText("Dígito é obrigatório.");
-            AnimationUtils.errorAnimation(fieldDigitoConta);
+            AnimationUtils.errorAnimation(paneDigitoConta);
             AnimationUtils.fadeIn(errorLabelDigitoConta, 200);
             valido = false;
         }
@@ -128,21 +134,32 @@ public class TransferenciaController {
             return;
         }
 
-        LoadingUtils.runWithLoading("Verificando conta...", () -> {
-            return contaDAO.getProfileByConta(agencia, conta);
-        }).thenAccept(contaDestino -> {
-            if (contaDestino != null) {
-                SessionManager.setContaDestino(contaDestino);
-                try {
-                    App.setRoot("ConfirmarContaDestino");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    exibirErroGeral("Falha ao carregar a próxima tela.");
-                }
-            } else {
-                exibirErroGeral("Conta de destino não encontrada.");
-            }
-        });
+        LoadingUtils.showLoading("Verificando conta...");
+
+        CompletableFuture.supplyAsync(() -> contaDAO.getProfileByConta(agencia, conta))
+            .thenAccept(contaDestino -> {
+                javafx.application.Platform.runLater(() -> {
+                    if (contaDestino != null) {
+                        SessionManager.setContaDestino(contaDestino);
+
+                        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                        pause.setOnFinished(event -> {
+                            try {
+                                App.setRoot("ConfirmarDadosDestino");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                exibirErroGeral("Falha ao carregar a próxima tela.");
+                            } finally {
+                                LoadingUtils.hideLoading();
+                            }
+                        });
+                        pause.play();
+                    } else {
+                        LoadingUtils.hideLoading();
+                        exibirErroGeral("Conta de destino não encontrada.");
+                    }
+                });
+            });
     }
 
     private void exibirErroGeral(String mensagem) {

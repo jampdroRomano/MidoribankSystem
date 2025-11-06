@@ -38,8 +38,14 @@ public class ConclusaoOperacaoController {
 
     private void configurarTela() {
         labelTituloOperacao.setText(tipoOperacao);
-        labelMensagemSucesso.setText(tipoOperacao + " concluído com sucesso!");
-        labelPergunta.setText("Deseja realizar outro " + tipoOperacao.toLowerCase() + "?");
+
+        if ("Transferencia".equals(tipoOperacao)) {
+            labelMensagemSucesso.setText("Transferência concluída com sucesso!");
+            labelPergunta.setText("Deseja realizar outra transferência?");
+        } else {
+            labelMensagemSucesso.setText(tipoOperacao + " concluído com sucesso!");
+            labelPergunta.setText("Deseja realizar outro " + tipoOperacao.toLowerCase() + "?");
+        }
 
         labelNumeroConta.setText(currentUser.getNumeroConta());
         labelSaldoAtual.setText(String.format("R$ %.2f", currentUser.getSaldo()));
@@ -66,8 +72,11 @@ public class ConclusaoOperacaoController {
         try {
             if ("Saque".equals(tipoOperacao) || "Depósito".equals(tipoOperacao)) {
                 App.setRoot("OperacaoValor");
-            }
-            else {
+            
+            } else if ("Transferencia".equals(tipoOperacao)) {
+                App.setRoot("Transferencia"); 
+            
+            } else {
                 App.setRoot("home");
             }
         } catch (IOException e) {

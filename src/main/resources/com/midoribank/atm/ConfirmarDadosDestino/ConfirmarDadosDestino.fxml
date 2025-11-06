@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" style="-fx-background-color: radial-gradient(center 55% 50%, radius 65%, #5a5062, #292530);" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.midoribank.atm.controllers.ConfirmarDadosController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" style="-fx-background-color: radial-gradient(center 55% 50%, radius 65%, #5a5062, #292530);" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.midoribank.atm.controllers.ConfirmarContaDestinoController">
    <children>
       <Pane layoutX="227.0" layoutY="99.0" prefHeight="507.0" prefWidth="598.0" style="-fx-background-color: #27232A; -fx-background-radius: 8;">
          <children>
@@ -45,32 +45,32 @@
                   <Image url="@../confirmar-operacao/logotipo_grande.png" />
                </image>
             </ImageView>
-            <Text fill="WHITE" layoutX="187.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Transferência para">
+            <Text fill="WHITE" layoutX="187.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Transferência para">
                <font>
                   <Font name="Montserrat Regular" size="24.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="219.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agência:">
+            <Text fill="WHITE" layoutX="218.0" layoutY="439.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agência:">
                <font>
                   <Font name="Montserrat Regular" size="20.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="162.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número da conta:">
+            <Text fill="WHITE" layoutX="162.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número da conta:">
                <font>
                   <Font name="Montserrat Regular" size="20.0" />
                </font>
             </Text>
-            <Label fx:id="labelNome" alignment="CENTER" layoutX="-3.0" layoutY="190.0" prefHeight="27.0" prefWidth="604.0" style="-fx-font-weight: bold;" text="Steph Curry" textFill="WHITE">
+            <Label fx:id="labelNome" alignment="TOP_CENTER" layoutX="97.0" layoutY="187.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="112.0" prefWidth="404.0" style="-fx-font-weight: bold;" text="Steph Curry sadfasdsadasdasdasdasdasdas" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label fx:id="labelAgencia" layoutX="316.0" layoutY="401.0" prefHeight="27.0" prefWidth="152.0" text="0123-2" textFill="WHITE">
+            <Label fx:id="labelAgencia" layoutX="315.0" layoutY="420.0" prefHeight="27.0" prefWidth="65.0" text="0123-2" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="labelConta" layoutX="349.0" layoutY="302.0" prefHeight="27.0" prefWidth="145.0" text="12186520" textFill="WHITE">
+            <Label fx:id="labelConta" layoutX="349.0" layoutY="326.0" prefHeight="27.0" prefWidth="86.0" text="12186520" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -84,7 +84,7 @@
             </DropShadow>
          </effect>
       </Pane>
-      <Pane fx:id="paneConfirmar" layoutX="531.0" layoutY="628.0" prefHeight="70.0" prefWidth="294.0" style="-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 4);">
+      <Pane fx:id="paneConfirmar" layoutX="531.0" layoutY="628.0" onMouseClicked="#handleContinuar" prefHeight="70.0" prefWidth="294.0" style="-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 4);">
          <children>
             <Text fill="WHITE" layoutX="87.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Continuar">
                <font>
@@ -93,7 +93,7 @@
             </Text>
          </children>
       </Pane>
-      <Pane fx:id="paneVoltar" layoutX="225.0" layoutY="628.0" prefHeight="70.0" prefWidth="294.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-border-width: 2;">
+      <Pane fx:id="paneVoltar" layoutX="225.0" layoutY="628.0" onMouseClicked="#handleVoltar" prefHeight="70.0" prefWidth="294.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-border-width: 2;">
          <children>
             <Text fill="WHITE" layoutX="121.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Voltar">
                <font>

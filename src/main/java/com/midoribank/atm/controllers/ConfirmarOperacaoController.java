@@ -12,7 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
-public class ConfirmarDadosController {
+public class ConfirmarOperacaoController {
 
     @FXML private Label labelNome;
     @FXML private Label labelAgencia;

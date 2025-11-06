@@ -211,6 +211,23 @@ public class TelaPinController {
 
             futuroSucesso = this.operacaoService.executarDeposito(currentUser, valor);
 
+        // ADICIONAR ESTE BLOCO ELSE IF
+        } else if ("Transferencia".equals(tipo)) {
+            UserProfile contaDestino = SessionManager.getContaDestino();
+
+            if (contaDestino == null) {
+                exibirMensagemErro("Erro crítico: Conta de destino não encontrada na sessão.");
+                return;
+            }
+            if (valor <= 0 || valor > saldoAtual) {
+                exibirMensagemErro("Saldo insuficiente. Operação cancelada.");
+                SessionManager.clearTransaction();
+                try { App.setRoot("home"); } catch (IOException e) { e.printStackTrace(); }
+                return;
+            }
+
+            futuroSucesso = this.operacaoService.executarTransferencia(currentUser, contaDestino, valor);
+            
         } else {
             exibirMensagemErro("Tipo de operação desconhecido: " + tipo);
             return;
@@ -220,12 +237,16 @@ public class TelaPinController {
             Platform.runLater(() -> {
                 if (sucessoNoBanco) {
                     double novoSaldo;
-                    if ("Saque".equals(tipo)) {
+                    if ("Saque".equals(tipo) || "Transferencia".equals(tipo)) { 
                         novoSaldo = saldoAtual - valor;
                     } else {
                         novoSaldo = saldoAtual + valor;
                     }
                     currentUser.setSaldo(novoSaldo);
+                    
+                    if ("Transferencia".equals(tipo)) { 
+                        SessionManager.clearTransferenciaData();
+                    }
 
                     try {
                         App.setRoot("ConclusaoOperacao");

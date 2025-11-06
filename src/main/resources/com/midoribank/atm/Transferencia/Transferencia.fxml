@@ -17,7 +17,7 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Pane layoutX="357.0" layoutY="322.0" prefHeight="69.0" prefWidth="381.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+      <Pane fx:id="paneAgencia" layoutX="357.0" layoutY="322.0" prefHeight="69.0" prefWidth="381.0" style="-fx-background-color: white; -fx-background-radius: 8;">
          <children>
             <TextField fx:id="fieldAgencia" prefHeight="69.0" prefWidth="381.0" promptText="Insira o numero da agência" style="-fx-background-radius: 8; -fx-background-color: transparent;">
                <font>
@@ -25,7 +25,7 @@
                </font>
             </TextField>
          </children></Pane>
-      <Pane layoutX="358.0" layoutY="440.0" prefHeight="69.0" prefWidth="381.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+      <Pane fx:id="paneConta" layoutX="358.0" layoutY="440.0" prefHeight="69.0" prefWidth="381.0" style="-fx-background-color: white; -fx-background-radius: 8;">
          <children>
             <TextField fx:id="fieldConta" prefHeight="69.0" prefWidth="381.0" promptText="Insira o numero da conta" style="-fx-background-radius: 8; -fx-background-color: transparent;">
                <font>
@@ -33,7 +33,7 @@
                </font>
             </TextField>
          </children></Pane>
-      <Pane layoutX="750.0" layoutY="440.0" prefHeight="69.0" prefWidth="241.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+      <Pane fx:id="paneDigitoConta" layoutX="750.0" layoutY="440.0" prefHeight="69.0" prefWidth="241.0" style="-fx-background-color: white; -fx-background-radius: 8;">
          <children>
             <TextField fx:id="fieldDigitoConta" prefHeight="69.0" prefWidth="241.0" promptText="- 0 " style="-fx-background-radius: 8; -fx-background-color: transparent;">
                <font>
@@ -41,7 +41,7 @@
                </font>
             </TextField>
          </children></Pane>
-      <Pane layoutX="750.0" layoutY="321.0" prefHeight="69.0" prefWidth="241.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+      <Pane fx:id="paneDigitoAgencia" layoutX="750.0" layoutY="321.0" prefHeight="69.0" prefWidth="241.0" style="-fx-background-color: white; -fx-background-radius: 8;">
          <children>
             <TextField fx:id="fieldDigitoAgencia" prefHeight="69.0" prefWidth="241.0" promptText="- 0 " style="-fx-background-radius: 8; -fx-background-color: transparent;">
                <font>
