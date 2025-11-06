@@ -109,14 +109,14 @@
             </Label>
             <Line endX="302.0" layoutX="170.0" layoutY="158.0" startX="-100.0" strokeWidth="0.5" />
             <Circle fill="TRANSPARENT" layoutX="444.0" layoutY="190.0" radius="9.0" stroke="#737373" strokeType="INSIDE" strokeWidth="2.0" />
-            <Label layoutX="81.0" layoutY="173.0" text="Ultimos 30 dias" textFill="#737373">
+            <Label layoutX="81.0" layoutY="173.0" text="Ultimos 60 dias" textFill="#737373">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <Line endX="302.0" layoutX="170.0" layoutY="215.0" startX="-100.0" strokeWidth="0.5" />
             <Circle fill="TRANSPARENT" layoutX="444.0" layoutY="250.0" radius="9.0" stroke="#737373" strokeType="INSIDE" strokeWidth="2.0" />
-            <Label layoutX="81.0" layoutY="233.0" text="Ultimos 30 dias" textFill="#737373">
+            <Label layoutX="81.0" layoutY="233.0" text="Ultimos 90 dias" textFill="#737373">
                <font>
                   <Font size="18.0" />
                </font>

@@ -15,7 +15,7 @@
 
    <children>
 
-      <Pane fx:id="paneVoltar" layoutX="570.0" layoutY="657.0" prefHeight="61.0" prefWidth="210.0" style="-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 4);">
+      <Pane fx:id="paneVoltar" layoutX="558.0" layoutY="658.0" prefHeight="61.0" prefWidth="210.0" style="-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 4);">
 
          <children>
 
