@@ -133,7 +133,6 @@ public class OperacaoValorController {
     private void handleVoltar() {
         try {
             if (tipoOperacao.equals("Transferencia")) {
-                SessionManager.clearTransferenciaData();
                 App.setRoot("ConfirmarDadosDestino");
             } else {
                 App.setRoot("home");
