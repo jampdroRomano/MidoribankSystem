@@ -134,7 +134,7 @@ public class OperacaoValorController {
         try {
             if (tipoOperacao.equals("Transferencia")) {
                 SessionManager.clearTransferenciaData();
-                App.setRoot("ConfirmarContaDestino");
+                App.setRoot("ConfirmarDadosDestino");
             } else {
                 App.setRoot("home");
             }

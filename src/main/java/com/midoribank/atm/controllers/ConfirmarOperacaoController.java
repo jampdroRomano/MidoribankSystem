@@ -78,7 +78,7 @@ public class ConfirmarOperacaoController {
         try {
             String telaAnterior = "home";
             // Verifica o tipo de operação e aponta para a tela correta (OperacaoValor)
-            if ("Saque".equals(tipoOperacao) || "Depósito".equals(tipoOperacao)) {
+            if ("Saque".equals(tipoOperacao) || "Depósito".equals(tipoOperacao) || "Transferencia".equals(tipoOperacao)) {
                 telaAnterior = "OperacaoValor";
             }
 
