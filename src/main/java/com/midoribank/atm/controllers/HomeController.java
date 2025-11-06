@@ -62,7 +62,7 @@ public class HomeController {
         paneEncerrar.setOnMouseClicked(e -> handleEncerrar());
 
         paneTransferir.setOnMouseClicked(e -> abrirTelaTransferencia());
-        paneExtrato.setOnMouseClicked(e -> showInDevelopmentAlert());
+        paneExtrato.setOnMouseClicked(e -> abrirTelaExtrato());
         paneCartao.setOnMouseClicked(e -> showInDevelopmentAlert());
         paneDetalhes.setOnMouseClicked(e -> showInDevelopmentAlert());
 
@@ -133,5 +133,13 @@ public class HomeController {
         alert.setHeaderText(null);
         alert.setContentText("Esta função ainda está em desenvolvimento.");
         alert.showAndWait();
+    }
+
+    private void abrirTelaExtrato() {
+        try {
+            App.setRoot("Extrato");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
