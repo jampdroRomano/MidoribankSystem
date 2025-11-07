@@ -22,20 +22,19 @@ public class opcoesLoginController {
     private Pane recarga_celular;
 
     @FXML
-    private Pane paneEncerrar; // Adicionado o novo pane
+    private Pane paneEncerrar; 
 
     @FXML
     public void initialize() {
         recarga_cartao.setOnMouseClicked(e -> showInDevelopmentAlert());
         recarga_celular.setOnMouseClicked(e -> showInDevelopmentAlert());
 
-        // Configuração do evento para o novo botão de encerrar
         paneEncerrar.setOnMouseClicked(e -> handleEncerrar());
 
         AnimationUtils.setupNodeHoverEffects(entrar_conta);
         AnimationUtils.setupNodeHoverEffects(recarga_cartao);
         AnimationUtils.setupNodeHoverEffects(recarga_celular);
-        AnimationUtils.setupNodeHoverEffects(paneEncerrar); // Adiciona efeito de hover
+        AnimationUtils.setupNodeHoverEffects(paneEncerrar);
     }
 
     @FXML
@@ -47,7 +46,6 @@ public class opcoesLoginController {
         }
     }
 
-    // Novo método para lidar com o encerramento da aplicação
     private void handleEncerrar() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmação de Saída");

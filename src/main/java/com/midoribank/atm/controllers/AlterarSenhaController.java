@@ -30,7 +30,7 @@ public class AlterarSenhaController {
     private ImageView btnVoltar; 
     
     @FXML
-    private Label emailLabel; // Esta linha você já tinha adicionado
+    private Label emailLabel; 
 
     private RecuperacaoSenhaService recuperacaoService;
 
@@ -39,7 +39,6 @@ public class AlterarSenhaController {
         this.recuperacaoService = new RecuperacaoSenhaService();
         AnimationUtils.setupButtonHoverEffects(redefinirButton);
         
-        // MUDANÇA AQUI: Usando o nome correto da variável
         AnimationUtils.setupNodeHoverEffects(btnVoltar); 
         errorLabel.setOpacity(0);
 
@@ -48,12 +47,10 @@ public class AlterarSenhaController {
             handleRedefinirSenha();
         });
 
-        // Este bloco que você adicionou está CORRETO
         String email = SessionManager.getEmailRecuperacao();
         if (email != null && !email.isEmpty()) {
             emailLabel.setText(email);
         } else {
-            // Caso algo dê errado, para não ficar em branco
             emailLabel.setText("E-mail não encontrado"); 
         }
 

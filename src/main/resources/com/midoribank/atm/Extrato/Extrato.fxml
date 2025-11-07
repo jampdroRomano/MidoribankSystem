@@ -141,7 +141,7 @@
 
       </Text>
 
-            <Pane layoutX="393.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 20 0 0 0;">
+            <Pane fx:id="paneAbaHistorico" layoutX="393.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 20 0 0 0;">
          <children>
             <Text fill="#737373" layoutX="59.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meu Historico" textAlignment="CENTER" wrappingWidth="154.001953125">
                <font>
@@ -151,7 +151,7 @@
          </children>
       </Pane>
 
-      <Pane layoutX="665.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: #0DA900; -fx-background-radius: 0 20 0 0;">
+      <Pane fx:id="paneAbaExportar" layoutX="665.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: #0DA900; -fx-background-radius: 0 20 0 0;">
          <children>
             <Text fill="WHITE" layoutX="58.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exportar extrato" textAlignment="CENTER">
                <font>

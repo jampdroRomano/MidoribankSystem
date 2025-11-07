@@ -4,7 +4,6 @@ import javafx.animation.*;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.control.Button;
 import javafx.scene.Cursor;
 import javafx.scene.paint.Color;

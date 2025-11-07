@@ -30,7 +30,6 @@ public class ConfirmarContaDestinoController {
             return;
         }
 
-        // Popula os labels com os dados da CONTA DE DESTINO
         labelNome.setText(this.contaDestino.getNome());
         labelAgencia.setText(this.contaDestino.getAgencia());
         labelConta.setText(this.contaDestino.getNumeroConta());
@@ -51,7 +50,6 @@ public class ConfirmarContaDestinoController {
 
     @FXML
     private void handleContinuar() {
-        // Próximo passo: Inserir o valor
         try {
             App.setRoot("OperacaoValor");
         } catch (IOException e) {
@@ -62,9 +60,8 @@ public class ConfirmarContaDestinoController {
 
     @FXML
     private void handleVoltar() {
-        // Volta para a tela de inserir a conta
         try {
-            SessionManager.clearTransferenciaData(); // Limpa os dados de destino da sessão
+            SessionManager.clearTransferenciaData();
             App.setRoot("Transferencia");
         } catch (IOException e) {
             e.printStackTrace();
