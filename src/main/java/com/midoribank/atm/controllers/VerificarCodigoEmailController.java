@@ -4,7 +4,6 @@ import com.midoribank.atm.App;
 import com.midoribank.atm.services.RecuperacaoSenhaService;
 import com.midoribank.atm.services.SessionManager;
 import com.midoribank.atm.utils.AnimationUtils;
-import com.midoribank.atm.utils.LoadingUtils;
 import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import java.util.concurrent.CompletableFuture;
 import javafx.util.Duration;
 
 public class VerificarCodigoEmailController {

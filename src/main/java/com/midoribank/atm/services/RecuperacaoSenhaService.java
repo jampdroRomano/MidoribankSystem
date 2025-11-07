@@ -67,6 +67,11 @@ public class RecuperacaoSenhaService {
 
             if (user == null) {
                 System.err.println("Tentativa de recuperação para e-mail não cadastrado: " + email);
+                
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {}
+                
                 return false;
             }
 
@@ -80,13 +85,21 @@ public class RecuperacaoSenhaService {
             recuperacaoDAO.invalidarCodigosAntigos(usuarioId);
 
             boolean salvoNoDb = recuperacaoDAO.salvarCodigo(usuarioId, codigo, expiracao);
+            boolean emailEnviado = false; 
 
             if (salvoNoDb) {
-                return emailService.enviarEmail(email, assunto, corpoEmail).join(); // .join() para esperar o resultado
+                emailEnviado = emailService.enviarEmail(email, assunto, corpoEmail).join(); 
             } else {
                 System.err.println("Falha ao salvar o código no banco para o usuário: " + usuarioId);
-                return false;
+                emailEnviado = false;
             }
+
+            try {
+                Thread.sleep(1500); 
+            } catch (InterruptedException e) {
+            }
+
+            return emailEnviado; 
         });
     }
 
@@ -96,7 +109,15 @@ public class RecuperacaoSenhaService {
             if (user == null) {
                 return false;
             }
-            return recuperacaoDAO.validarCodigo(user.getId(), codigo);
+            
+            boolean codigoValido = recuperacaoDAO.validarCodigo(user.getId(), codigo);
+
+            try {
+                Thread.sleep(1000); 
+            } catch (InterruptedException e) {
+            }
+
+            return codigoValido; 
         });
     }
 
@@ -113,7 +134,14 @@ public class RecuperacaoSenhaService {
             if (sucesso) {
                 recuperacaoDAO.invalidarCodigosAntigos(usuarioId);
             }
+            
+            try {
+                Thread.sleep(1000); 
+            } catch (InterruptedException e) {}
+            
             return sucesso;
         });
     }
+
+    
 }

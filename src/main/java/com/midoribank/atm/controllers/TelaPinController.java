@@ -6,7 +6,6 @@ import com.midoribank.atm.services.OperacaoService;
 import com.midoribank.atm.services.SessionManager;
 import com.midoribank.atm.utils.AnimationUtils;
 import com.midoribank.atm.utils.CriptografiaUtils;
-import com.midoribank.atm.utils.LoadingUtils;
 import java.io.IOException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -15,8 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.Pane;
-import java.util.concurrent.CompletableFuture;
-import javafx.geometry.Pos;
 
 public class TelaPinController {
 

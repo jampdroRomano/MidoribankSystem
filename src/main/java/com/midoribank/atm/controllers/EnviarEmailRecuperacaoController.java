@@ -4,7 +4,6 @@ import com.midoribank.atm.App;
 import com.midoribank.atm.services.RecuperacaoSenhaService;
 import com.midoribank.atm.services.SessionManager;
 import com.midoribank.atm.utils.AnimationUtils;
-import com.midoribank.atm.utils.LoadingUtils;
 import java.io.IOException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import java.util.concurrent.CompletableFuture;
 import javafx.scene.control.Button;
 
 public class EnviarEmailRecuperacaoController {
@@ -78,11 +76,4 @@ public class EnviarEmailRecuperacaoController {
         alert.showAndWait();
     }
 
-    private void exibirMensagemInfo(String titulo, String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
-    }
 }

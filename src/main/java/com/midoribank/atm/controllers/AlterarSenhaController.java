@@ -4,7 +4,6 @@ import com.midoribank.atm.App;
 import com.midoribank.atm.services.RecuperacaoSenhaService;
 import com.midoribank.atm.services.SessionManager;
 import com.midoribank.atm.utils.AnimationUtils;
-import com.midoribank.atm.utils.LoadingUtils;
 import java.io.IOException;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -14,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
-import java.util.concurrent.CompletableFuture;
 import javafx.util.Duration;
 
 public class AlterarSenhaController {
@@ -27,8 +25,12 @@ public class AlterarSenhaController {
     private Label errorLabel;
     @FXML
     private Button redefinirButton;
+    
     @FXML
-    private ImageView btnVoltar;
+    private ImageView btnVoltar; 
+    
+    @FXML
+    private Label emailLabel; // Esta linha você já tinha adicionado
 
     private RecuperacaoSenhaService recuperacaoService;
 
@@ -36,7 +38,9 @@ public class AlterarSenhaController {
     public void initialize() {
         this.recuperacaoService = new RecuperacaoSenhaService();
         AnimationUtils.setupButtonHoverEffects(redefinirButton);
-        AnimationUtils.setupNodeHoverEffects(btnVoltar);
+        
+        // MUDANÇA AQUI: Usando o nome correto da variável
+        AnimationUtils.setupNodeHoverEffects(btnVoltar); 
         errorLabel.setOpacity(0);
 
         redefinirButton.setOnAction(event -> {
@@ -44,7 +48,16 @@ public class AlterarSenhaController {
             handleRedefinirSenha();
         });
 
-        btnVoltar.setOnMouseClicked(event -> {
+        // Este bloco que você adicionou está CORRETO
+        String email = SessionManager.getEmailRecuperacao();
+        if (email != null && !email.isEmpty()) {
+            emailLabel.setText(email);
+        } else {
+            // Caso algo dê errado, para não ficar em branco
+            emailLabel.setText("E-mail não encontrado"); 
+        }
+
+        btnVoltar.setOnMouseClicked(event -> { 
             AnimationUtils.buttonClickAnimation(btnVoltar);
             try {
                 handleVoltar();
