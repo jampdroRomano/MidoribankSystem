@@ -83,7 +83,7 @@
 
       </ImageView>
 
-      <Label fx:id="labelTituloOperacao" layoutX="58.0" layoutY="204.0" text="Operação" textFill="WHITE">
+      <Label fx:id="labelTituloOperacao" layoutX="55.0" layoutY="203.0" text="Extrato" textFill="WHITE">
 
          <font>
 
@@ -149,6 +149,13 @@
                </font>
             </Text>
          </children>
+         <effect>
+            <InnerShadow height="25.4" radius="12.565" width="26.86">
+               <color>
+                  <Color opacity="0.8740457892417908" />
+               </color>
+            </InnerShadow>
+         </effect>
       </Pane>
 
       <Pane fx:id="paneAbaExportar" layoutX="665.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: #0DA900; -fx-background-radius: 0 20 0 0;">
