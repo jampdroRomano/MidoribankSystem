@@ -26,7 +26,6 @@ public class RecuperacaoSenhaService {
     }
 
     private String criarCorpoEmail(String nomeUsuario, String codigo) {
-        // Usa String.format para inserir o nome e o código no template HTML
         return String.format(
                 "<html lang=\"pt-BR\">" +
                         "<head><meta charset=\"UTF-8\"></head>" +

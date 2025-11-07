@@ -121,34 +121,29 @@ public class OperacaoService {
                 double novoSaldoOrigem = userOrigem.getSaldo() - valor;
                 boolean saldoOrigemAtualizado = contaDAO.atualizarSaldo(userOrigem.getNumeroConta(), novoSaldoOrigem, conn);
 
-                // 2. Creditar na conta de destino
                 double novoSaldoDestino = userDestino.getSaldo() + valor;
                 boolean saldoDestinoAtualizado = contaDAO.atualizarSaldo(userDestino.getNumeroConta(), novoSaldoDestino, conn);
 
-                // 3. Registrar movimentação de SAÍDA (Enviada)
                 boolean movRegistradaOrigem = movimentacaoDAO.registrarMovimentacao(
                         conn,
                         userOrigem.getContaId(),
                         MovimentacaoDAO.TipoMovimentacao.TRANSFERENCIA_ENVIADA,
                         valor,
-                        userDestino.getContaId() // ID da conta de destino
+                        userDestino.getContaId() 
                 );
 
-                // 4. Registrar movimentação de ENTRADA (Recebida)
                 boolean movRegistradaDestino = movimentacaoDAO.registrarMovimentacao(
                         conn,
                         userDestino.getContaId(),
                         MovimentacaoDAO.TipoMovimentacao.TRANSFERENCIA_RECEBIDA,
                         valor,
-                        userOrigem.getContaId() // ID da conta de origem
+                        userOrigem.getContaId() 
                 );
 
-                // Se tudo deu certo, commita
                 if (saldoOrigemAtualizado && saldoDestinoAtualizado && movRegistradaOrigem && movRegistradaDestino) {
                     conn.commit();
                     return true;
                 } else {
-                    // Se algo falhou, reverte
                     throw new SQLException("Falha ao registrar transferência em todas as partes, revertendo.");
                 }
 

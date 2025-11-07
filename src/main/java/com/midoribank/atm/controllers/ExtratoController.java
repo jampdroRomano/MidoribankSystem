@@ -5,6 +5,7 @@ import com.midoribank.atm.dao.MovimentacaoDAO;
 import com.midoribank.atm.models.Movimentacao;
 import com.midoribank.atm.models.UserProfile;
 import com.midoribank.atm.services.SessionManager;
+import com.midoribank.atm.utils.AnimationUtils; 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -23,6 +24,8 @@ public class ExtratoController {
     private Label labelNumeroConta;
     @FXML
     private VBox vboxMovimentacoes;
+    @FXML
+    private Pane paneAbaExportar;
 
     private UserProfile currentUser;
     private MovimentacaoDAO movimentacaoDAO;
@@ -33,7 +36,13 @@ public class ExtratoController {
         this.movimentacaoDAO = new MovimentacaoDAO();
         carregarDadosUsuario();
         carregarMovimentacoes();
+        
         paneVoltar.setOnMouseClicked(e -> voltarParaHome());
+        
+        if (paneAbaExportar != null) {
+            paneAbaExportar.setOnMouseClicked(e -> irParaExportar());
+            AnimationUtils.setupNodeHoverEffects(paneAbaExportar); 
+        }
     }
 
     private void carregarDadosUsuario() {
@@ -50,6 +59,7 @@ public class ExtratoController {
     }
 
     private void carregarMovimentacoes() {
+
         if (currentUser != null) {
             List<Movimentacao> movimentacoes = movimentacaoDAO.listarMovimentacoesPorContaId(currentUser.getContaId());
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -86,6 +96,14 @@ public class ExtratoController {
     private void voltarParaHome() {
         try {
             App.setRoot("home");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void irParaExportar() {
+        try {
+            App.setRoot("ExportarExtrato");
         } catch (IOException e) {
             e.printStackTrace();
         }

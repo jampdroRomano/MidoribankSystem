@@ -7,6 +7,9 @@ module com.midoribank.atm {
     requires jbcrypt;
     requires jakarta.mail;
 
+    requires com.github.librepdf.openpdf;
+    requires java.desktop;     
+
     opens com.midoribank.atm to javafx.fxml;
 
     opens com.midoribank.atm.controllers to javafx.fxml;
