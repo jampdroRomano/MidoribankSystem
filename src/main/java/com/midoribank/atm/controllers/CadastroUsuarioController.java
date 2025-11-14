@@ -6,6 +6,8 @@ import com.midoribank.atm.services.SessionManager;
 import com.midoribank.atm.utils.AnimationUtils;
 import com.midoribank.atm.utils.LoadingUtils;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -54,21 +56,57 @@ public class CadastroUsuarioController {
         String senha = senhaFieldCadastro.getText();
         String confirmacaoSenha = confirmeSenha.getText();
 
-        if (nome.isEmpty() || email.isEmpty() || senha.isEmpty() || confirmacaoSenha.isEmpty()) {
-            exibirMensagemErro("Preencha todos os campos!");
+        boolean hasError = false;
+        StringBuilder errorMessage = new StringBuilder();
+
+        if (nome.isEmpty()) {
+            if (errorMessage.length() > 0) errorMessage.append("\n");
+            errorMessage.append("- O campo nome não pode estar vazio.");
             AnimationUtils.errorAnimation(nomeField);
-            AnimationUtils.errorAnimation(emailFieldCadastro);
-            AnimationUtils.errorAnimation(senhaFieldCadastro);
-            AnimationUtils.errorAnimation(confirmeSenha);
-            return;
+            hasError = true;
         }
 
-        if (!senha.equals(confirmacaoSenha)) {
-            exibirMensagemErro("As senhas não conferem!");
+        if (email.isEmpty()) {
+            if (errorMessage.length() > 0) errorMessage.append("\n");
+            errorMessage.append("- O campo de e-mail não pode estar vazio.");
+            AnimationUtils.errorAnimation(emailFieldCadastro);
+            hasError = true;
+        } else if (!isValidEmail(email)) {
+            if (errorMessage.length() > 0) errorMessage.append("\n");
+            errorMessage.append("- O e-mail fornecido não é válido ou não é de um domínio suportado.");
+            AnimationUtils.errorAnimation(emailFieldCadastro);
+            hasError = true;
+        }
+
+        if (senha.isEmpty()) {
+            if (errorMessage.length() > 0) errorMessage.append("\n");
+            errorMessage.append("- O campo de senha não pode estar vazio.");
+            AnimationUtils.errorAnimation(senhaFieldCadastro);
+            hasError = true;
+        } else if (!isStrongPassword(senha)) {
+            if (errorMessage.length() > 0) errorMessage.append("\n");
+            errorMessage.append("- A senha deve ter no mínimo 8 caracteres, incluindo uma letra maiúscula, uma minúscula e um número.");
+            AnimationUtils.errorAnimation(senhaFieldCadastro);
+            hasError = true;
+        }
+
+        if (confirmacaoSenha.isEmpty()) {
+            if (errorMessage.length() > 0) errorMessage.append("\n");
+            errorMessage.append("- O campo de confirmação de senha não pode estar vazio.");
+            AnimationUtils.errorAnimation(confirmeSenha);
+            hasError = true;
+        } else if (!senha.isEmpty() && !senha.equals(confirmacaoSenha)) {
+            if (errorMessage.length() > 0) errorMessage.append("\n");
+            errorMessage.append("- As senhas não conferem.");
             AnimationUtils.errorAnimation(senhaFieldCadastro);
             AnimationUtils.errorAnimation(confirmeSenha);
             senhaFieldCadastro.clear();
             confirmeSenha.clear();
+            hasError = true;
+        }
+
+        if (hasError) {
+            exibirMensagemErro(errorMessage.toString());
             return;
         }
 
@@ -90,6 +128,36 @@ public class CadastroUsuarioController {
                 }
             });
         });
+    }
+
+    private boolean isStrongPassword(String password) {
+        if (password.length() < 8) {
+            return false;
+        }
+        boolean hasUpper = false;
+        boolean hasLower = false;
+        boolean hasDigit = false;
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                hasUpper = true;
+            } else if (Character.isLowerCase(c)) {
+                hasLower = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            }
+        }
+        return hasUpper && hasLower && hasDigit;
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        if (!email.matches(emailRegex)) {
+            return false;
+        }
+        String[] parts = email.split("@");
+        String domain = parts[1].toLowerCase();
+        List<String> validDomains = Arrays.asList("gmail.com", "hotmail.com", "outlook.com", "apple.com", "icloud.com", "yahoo.com", "live.com", "msn.com");
+        return validDomains.contains(domain);
     }
 
     @FXML
