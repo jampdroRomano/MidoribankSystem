@@ -115,6 +115,7 @@ public class OperacaoService {
         return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Realizando transferência...", () -> {
             Connection conn = null;
             try {
+                Thread.sleep(2000);
                 conn = ConnectionFactory.getConnection();
                 conn.setAutoCommit(false); 
 
@@ -147,7 +148,7 @@ public class OperacaoService {
                     throw new SQLException("Falha ao registrar transferência em todas as partes, revertendo.");
                 }
 
-            } catch (SQLException e) {
+            } catch (SQLException | InterruptedException e) {
                 System.err.println("Erro na transação de transferência: " + e.getMessage());
                 try {
                     if (conn != null) conn.rollback(); // Garante o rollback
