@@ -1,184 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" style="-fx-background-color: radial-gradient(center 55% 50%, radius 65%, #5a5062, #292530);" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.midoribank.atm.controllers.ExtratoController">
-
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" style="-fx-background-color: radial-gradient(center 55% 50%, radius 65%, #5a5062, #292530);" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.midoribank.atm.controllers.DadosCartaoController">
    <children>
-
       <Pane fx:id="paneVoltar" layoutX="558.0" layoutY="658.0" prefHeight="61.0" prefWidth="210.0" style="-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, #14FF00, #0C9A00); -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 4);">
-
          <children>
-
             <Text fill="WHITE" layoutX="69.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Voltar">
-
                <font>
-
                   <Font name="Montserrat Regular" size="24.0" />
-
                </font>
-
             </Text>
-
          </children>
-
       </Pane>
-
       <Text fill="#737373" layoutX="55.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número da conta">
-
          <font>
-
             <Font size="18.0" />
-
          </font>
-
       </Text>
-
       <Label fx:id="labelNumeroConta" layoutX="55.0" layoutY="399.0" prefHeight="46.0" prefWidth="294.0" text="12186520" textFill="WHITE">
-
          <font>
-
             <Font size="24.0" />
-
          </font>
-
       </Label>
-
       <Text fill="#737373" layoutX="55.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saldo">
-
          <font>
-
             <Font size="18.0" />
-
          </font>
-
       </Text>
-
       <Label fx:id="labelSaldoAtual" layoutX="55.0" layoutY="305.0" prefHeight="46.0" prefWidth="278.0" text="R$ 380,00" textFill="WHITE">
-
          <font>
-
             <Font size="24.0" />
-
          </font>
-
       </Label>
-
       <ImageView fitHeight="41.0" fitWidth="32.0" layoutX="39.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
-
          <image>
-
             <Image url="@../home/logotipo.png" />
-
          </image>
-
       </ImageView>
-
-      <Label fx:id="labelTituloOperacao" layoutX="54.0" layoutY="205.0" text="Extrato" textFill="WHITE">
-
+      <Label fx:id="labelTituloOperacao" layoutX="55.0" layoutY="203.0" text="Cartão" textFill="WHITE">
          <font>
-
             <Font size="36.0" />
-
          </font>
-
       </Label>
-
       <Text fill="WHITE" layoutX="96.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Midori">
-
          <font>
-
             <Font name="Montserrat ExtraBold" size="40.0" />
-
          </font>
-
          <effect>
-
             <InnerShadow offsetY="4.0">
-
                <color>
-
                   <Color opacity="0.25" />
-
                </color>
-
             </InnerShadow>
-
          </effect>
-
       </Text>
-
       <Text fill="#14ff00" layoutX="220.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Bank">
-
          <font>
-
             <Font name="Montserrat ExtraBold" size="40.0" />
-
          </font>
-
          <effect>
-
             <InnerShadow offsetY="4.0">
-
                <color>
-
                   <Color opacity="0.25" />
-
                </color>
-
             </InnerShadow>
-
          </effect>
-
       </Text>
-
-            <Pane fx:id="paneAbaHistorico" layoutX="393.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 20 0 0 0;">
+      <Pane layoutX="393.0" layoutY="171.0" prefHeight="424.0" prefWidth="542.0" style="-fx-background-color: #27232A; -fx-background-radius: 20;">
          <children>
-            <Text fill="#737373" layoutX="59.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meu Historico" textAlignment="CENTER" wrappingWidth="154.001953125">
+            <Pane layoutX="151.0" layoutY="30.0" prefHeight="143.0" prefWidth="240.0" style="-fx-background-color: #0DA900; -fx-background-radius: 8;" />
+            <Line endX="599.0" layoutX="-96.0" layoutY="308.0" startX="135.0" stroke="#737373" />
+            <Text fill="#b2b0b0" layoutX="39.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 200;" text="Nome">
                <font>
-                  <Font size="22.0" />
+                  <Font name="Montserrat Regular" size="18.0" />
                </font>
             </Text>
+            <Text fill="WHITE" layoutX="39.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Dados do Cartão">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text fill="#b2b0b0" layoutX="38.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 200;" text="Número">
+               <font>
+                  <Font name="Montserrat Regular" size="18.0" />
+               </font>
+            </Text>
+            <Text fill="#b2b0b0" layoutX="445.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 200;" text="CVV">
+               <font>
+                  <Font name="Montserrat Regular" size="18.0" />
+               </font>
+            </Text>
+            <Label fx:id="numeroCartao" layoutX="38.0" layoutY="276.0" text="1234 5678 9101 1121" textFill="#b2b0b0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="nomeCartao" layoutX="39.0" layoutY="355.0" text="Steph Curry" textFill="#b2b0b0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="cvvCartao" layoutX="449.0" layoutY="357.0" text="923" textFill="#b2b0b0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
-         <effect>
-            <InnerShadow height="25.4" radius="12.565" width="26.86">
-               <color>
-                  <Color opacity="0.8740457892417908" />
-               </color>
-            </InnerShadow>
-         </effect>
       </Pane>
-
-      <Pane fx:id="paneAbaExportar" layoutX="665.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: #0DA900; -fx-background-radius: 0 20 0 0;">
-         <children>
-            <Text fill="WHITE" layoutX="58.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exportar extrato" textAlignment="CENTER">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Text>
-         </children>
-         </Pane>
-
-
-
-
-      <ScrollPane layoutX="393.0" layoutY="203.0" prefHeight="392.0" prefWidth="542.0" style="-fx-background-color: white;">
-         <content>
-            <VBox fx:id="vboxMovimentacoes" prefWidth="525.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;" />
-         </content>
-      </ScrollPane>
-
-
-
    </children>
-
 </Pane>

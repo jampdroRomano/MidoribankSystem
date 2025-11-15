@@ -62,7 +62,7 @@
          </image>
       </ImageView>
 
-      <Label fx:id="labelTituloOperacao" layoutX="58.0" layoutY="204.0" text="Operação" textFill="WHITE">
+      <Label fx:id="labelTituloOperacao" layoutX="54.0" layoutY="205.0" text="Operação" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>

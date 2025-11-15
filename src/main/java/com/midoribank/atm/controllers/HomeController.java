@@ -62,8 +62,8 @@ public class HomeController {
 
         paneTransferir.setOnMouseClicked(e -> abrirTelaTransferencia());
         paneExtrato.setOnMouseClicked(e -> abrirTelaExtrato());
-        paneCartao.setOnMouseClicked(e -> showInDevelopmentAlert());
-        paneDetalhes.setOnMouseClicked(e -> showInDevelopmentAlert());
+        paneCartao.setOnMouseClicked(e -> abrirTelaDadosCartao());
+        paneDetalhes.setOnMouseClicked(e -> abrirTelaDetalhesDaConta());
 
         AnimationUtils.setupNodeHoverEffects(paneSacar);
         AnimationUtils.setupNodeHoverEffects(paneDepositar);
@@ -137,6 +137,22 @@ public class HomeController {
     private void abrirTelaExtrato() {
         try {
             App.setRoot("Extrato");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void abrirTelaDadosCartao() {
+        try {
+            App.setRoot("DadosCartao");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void abrirTelaDetalhesDaConta() {
+        try {
+            App.setRoot("DetalhesDaConta");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -43,6 +44,9 @@ public class ExtratoController {
             paneAbaExportar.setOnMouseClicked(e -> irParaExportar());
             AnimationUtils.setupNodeHoverEffects(paneAbaExportar); 
         }
+
+        paneVoltar.setOnMouseEntered(e -> paneVoltar.setCursor(Cursor.HAND));
+        paneVoltar.setOnMouseExited(e -> paneVoltar.setCursor(Cursor.DEFAULT));
     }
 
     private void carregarDadosUsuario() {

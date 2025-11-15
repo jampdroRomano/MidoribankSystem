@@ -33,7 +33,7 @@ public class UserDAO {
         String sql = "SELECT " +
                 "  u.id AS usuario_id, u.nome, u.email, " +
                 "  c.id AS conta_id, c.agencia, c.numero_conta, c.saldo, " +
-                "  ca.numero_cartao, ca.senha AS pin_cartao, " +
+                "  ca.numero_cartao, ca.senha AS pin_cartao, ca.cvv, " +
                 "  (SELECT senha FROM usuario WHERE email = ?) AS senha_conta " +
                 "FROM " +
                 "  usuario u " +
@@ -59,7 +59,8 @@ public class UserDAO {
                     double saldo = rs.getDouble("saldo");
                     String cartao = rs.getString("numero_cartao");
                     String pin = rs.getString("pin_cartao");
-                    return new UserProfile(usuarioId, contaId, nome, email, numeroConta, agencia, senhaConta, saldo, cartao, pin);
+                    String cvv = rs.getString("cvv");
+                    return new UserProfile(usuarioId, contaId, nome, email, numeroConta, agencia, senhaConta, saldo, cartao, pin, cvv);
                 }
             }
         } catch (SQLException e) {
@@ -81,7 +82,7 @@ public class UserDAO {
                     String nome = rs.getString("nome");
                     String emailDb = rs.getString("email");
 
-                    return new UserProfile(id, 0, nome, emailDb, null, null, null, 0, null, null);
+                    return new UserProfile(id, 0, nome, emailDb, null, null, null, 0, null, null, null);
                 }
             }
         } catch (SQLException e) {

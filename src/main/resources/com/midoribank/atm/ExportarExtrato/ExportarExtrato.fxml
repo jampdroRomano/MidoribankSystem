@@ -76,18 +76,18 @@
             </InnerShadow>
          </effect>
       </Text>
-      <Pane fx:id="paneAbaHistorico" layoutX="393.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 20 0 0 0;">
+      <Pane fx:id="paneAbaHistorico" layoutX="393.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: #0DA900; -fx-background-radius: 20 0 0 0;">
          <children>
-            <Text fill="#737373" layoutX="59.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meu Historico" textAlignment="CENTER" wrappingWidth="154.001953125">
+            <Text fill="WHITE" layoutX="59.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meu Historico" textAlignment="CENTER" wrappingWidth="154.001953125">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
          </children>
       </Pane>
-      <Pane fx:id="paneAbaExportar" layoutX="665.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: #0DA900; -fx-background-radius: 0 20 0 0;">
+      <Pane fx:id="paneAbaExportar" layoutX="665.0" layoutY="148.0" prefHeight="53.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 0 20 0 0;">
          <children>
-            <Text fill="WHITE" layoutX="58.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exportar extrato" textAlignment="CENTER">
+            <Text fill="#737373" layoutX="58.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exportar extrato" textAlignment="CENTER">
                <font>
                   <Font size="22.0" />
                </font>

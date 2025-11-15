@@ -76,7 +76,7 @@ public class ContaDAO {
         String sql = "SELECT " +
                 "  u.id, c.id AS conta_id, u.nome, u.email, " +
                 "  c.agencia, c.numero_conta, c.saldo, " +
-                "  ca.numero_cartao, ca.senha AS pin_cartao, " +
+                "  ca.numero_cartao, ca.senha AS pin_cartao, ca.cvv, " +
                 "  u.senha AS senha_conta " +
                 "FROM " +
                 "  usuario u " +
@@ -103,8 +103,9 @@ public class ContaDAO {
                     double saldo = rs.getDouble("saldo");
                     String cartao = rs.getString("numero_cartao");
                     String pin = rs.getString("pin_cartao");
+                    String cvv = rs.getString("cvv");
 
-                    return new UserProfile(id, contaId, nome, email, numeroContaDb, agenciaDb, senhaConta, saldo, cartao, pin);
+                    return new UserProfile(id, contaId, nome, email, numeroContaDb, agenciaDb, senhaConta, saldo, cartao, pin, cvv);
                 }
             }
         } catch (SQLException e) {

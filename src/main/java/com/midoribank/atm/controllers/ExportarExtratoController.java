@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -72,6 +73,18 @@ public class ExportarExtratoController {
         AnimationUtils.setupNodeHoverEffects(paneVoltar);
         AnimationUtils.setupNodeHoverEffects(paneAbaHistorico);
         AnimationUtils.setupNodeHoverEffects(paneGerarExtrato);
+        
+        paneVoltar.setOnMouseEntered(e -> paneVoltar.setCursor(Cursor.HAND));
+        paneVoltar.setOnMouseExited(e -> paneVoltar.setCursor(Cursor.DEFAULT));
+
+        circle30.setOnMouseEntered(e -> circle30.setCursor(Cursor.HAND));
+        circle30.setOnMouseExited(e -> circle30.setCursor(Cursor.DEFAULT));
+
+        circle60.setOnMouseEntered(e -> circle60.setCursor(Cursor.HAND));
+        circle60.setOnMouseExited(e -> circle60.setCursor(Cursor.DEFAULT));
+
+        circle90.setOnMouseEntered(e -> circle90.setCursor(Cursor.HAND));
+        circle90.setOnMouseExited(e -> circle90.setCursor(Cursor.DEFAULT));
     }
 
     private void selecionarPeriodo(int dias) {

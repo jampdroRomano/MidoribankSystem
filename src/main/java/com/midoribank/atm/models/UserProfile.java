@@ -12,7 +12,9 @@ public class UserProfile {
     private String numeroCartao;
     private String senhaCartaoHash;
 
-    public UserProfile(int id, int contaId, String nome, String email, String numeroConta, String agencia, String senhaContaHash, double saldo, String numeroCartao, String senhaCartaoHash) {
+    private String cvvCartao;
+
+    public UserProfile(int id, int contaId, String nome, String email, String numeroConta, String agencia, String senhaContaHash, double saldo, String numeroCartao, String senhaCartaoHash, String cvvCartao) {
         this.id = id;
         this.contaId = contaId;
         this.nome = nome;
@@ -23,6 +25,7 @@ public class UserProfile {
         this.saldo = saldo;
         this.numeroCartao = numeroCartao;
         this.senhaCartaoHash = senhaCartaoHash;
+        this.cvvCartao = cvvCartao;
     }
 
     public int getId() { return id; }
@@ -35,6 +38,7 @@ public class UserProfile {
     public double getSaldo() { return saldo; }
     public String getNumeroCartao() { return numeroCartao; }
     public String getSenhaCartaoHash() { return senhaCartaoHash; }
+    public String getCvvCartao() { return cvvCartao; }
 
     public void setSaldo(double novoSaldo) {
         this.saldo = novoSaldo;
