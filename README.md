@@ -16,7 +16,7 @@
 
 ## 🔗 Links Importantes
 - **Protótipo (Figma)**: [Acessar protótipo](https://www.figma.com/design/o684O0pI69p8i0iEg3pWfs/Untitled?node-id=182-6)
-- **Documentação (Em produção)**: na pasta [`documentacao`](Docs/)
+- **Documentação (Em produção)**: na pasta [`documentacao`](https://github.com/jampdroRomano/MidoribankSystem/blob/main/docs/Documenta%C3%A7%C3%A3o%20MidoriBank.pdf)
 
 ---
 
