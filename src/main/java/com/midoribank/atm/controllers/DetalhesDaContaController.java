@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
+
 public class DetalhesDaContaController {
 
     @FXML
@@ -34,6 +35,8 @@ public class DetalhesDaContaController {
 
     private UserProfile currentUser;
 
+    /*     * Inicializa o controller, carregando os detalhes da conta do usuário.
+     */
     @FXML
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
@@ -41,6 +44,8 @@ public class DetalhesDaContaController {
         configurarEventos();
     }
 
+    /*     * Carrega e exibe os dados do usuário na tela.
+     */
     private void carregarDadosUsuario() {
         if (currentUser != null) {
             labelNumeroConta.setText(currentUser.getNumeroConta());
@@ -50,6 +55,7 @@ public class DetalhesDaContaController {
             emailUsuario.setText(currentUser.getEmail());
             numeroContaDetalhes.setText(currentUser.getNumeroConta());
         } else {
+            // Redireciona para a tela de login se não houver usuário na sessão
             try {
                 App.setRoot("Login");
             } catch (IOException e) {
@@ -58,11 +64,15 @@ public class DetalhesDaContaController {
         }
     }
 
+    /*     * Configura os eventos de clique, como o botão de voltar.
+     */
     private void configurarEventos() {
         paneVoltar.setOnMouseClicked(e -> voltarParaHome());
         AnimationUtils.setupNodeHoverEffects(paneVoltar);
     }
 
+    /*     * Lida com a ação de voltar para a tela inicial.
+     */
     private void voltarParaHome() {
         try {
             App.setRoot("home");
@@ -71,3 +81,4 @@ public class DetalhesDaContaController {
         }
     }
 }
+

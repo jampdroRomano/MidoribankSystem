@@ -17,6 +17,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
+
 public class LoginController {
     @FXML
     private TextField emailField;
@@ -37,6 +38,9 @@ public class LoginController {
         this.userDAO = new UserDAO();
     }
 
+    /**
+     * Inicializa o controller de login, configurando os eventos e animações.
+     */
     @FXML
     public void initialize() {
         System.out.println("LoginController inicializado.");
@@ -53,6 +57,7 @@ public class LoginController {
             System.err.println("Aviso: btnVoltarLogin não encontrado no FXML.");
         }
 
+        // Configura o cursor para "mão" ao passar o mouse sobre o label "Esqueci minha senha"
         if (esqueciSenhaLabel != null) {
             esqueciSenhaLabel.setOnMouseEntered(e -> {
                 if (esqueciSenhaLabel.getScene() != null) {
@@ -68,11 +73,18 @@ public class LoginController {
         }
     }
 
+    /**
+     * Navega para a tela de recuperação de senha.
+
+     */
     @FXML
     private void handleEsqueciMinhaSenha() throws IOException {
         App.setRoot("EnviarEmailRecuperacao");
     }
 
+    /**
+     * Lida com o clique no botão de voltar, retornando para a tela de opções de login.
+     */
     @FXML
     private void handleVoltarClick() {
         try {
@@ -84,6 +96,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Navega para a tela de cadastro de usuário.
+     */
     private void handleAbrirCadastro() {
         try {
             App.setRoot("CadastroUsuario");
@@ -94,6 +109,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Autentica o usuário com base no e-mail e senha fornecidos.
+     */
     private void autenticar() {
         String email = emailField.getText();
         String senha = senhaField.getText();
@@ -105,6 +123,7 @@ public class LoginController {
             return;
         }
 
+        // Executa a autenticação em uma thread separada para não bloquear a interface
         LoadingUtils.runWithLoading("Autenticando...", () -> {
             boolean autentica = userDAO.autenticar(email, senha);
 
@@ -130,6 +149,10 @@ public class LoginController {
         });
     }
 
+    /**
+     * Exibe uma mensagem de erro em um pop-up.
+
+     */
     private void exibirMensagemErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");

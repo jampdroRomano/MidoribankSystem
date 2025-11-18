@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+
 public class VerificarCodigoEmailController {
 
     @FXML
@@ -38,11 +39,13 @@ public class VerificarCodigoEmailController {
     private Timeline timeline;
     private final IntegerProperty segundosRestantes = new SimpleIntegerProperty(15 * 60);
 
+    /**
+     * Inicializa o controller, configurando serviços, animações e o timer de expiração do código.
+     */
     @FXML
     public void initialize() {
         this.recuperacaoService = new RecuperacaoSenhaService();
 
-        // Agora isto vai funcionar porque os IDs estão corretos
         AnimationUtils.setupButtonHoverEffects(entrarButton);
         AnimationUtils.setupNodeHoverEffects(btnVoltarLogin);
 
@@ -54,13 +57,17 @@ public class VerificarCodigoEmailController {
         startTimer();
     }
 
+    /**
+     * Inicia o timer de contagem regressiva para a expiração do código.
+     */
     private void startTimer() {
         if (timeline != null) {
             timeline.stop();
         }
 
-        segundosRestantes.set(15 * 60);
+        segundosRestantes.set(15 * 60); // 15 minutos
 
+        // Atualiza o label do timer a cada segundo
         timerLabel.textProperty().bind(Bindings.createStringBinding(() -> {
             int totalSegundos = segundosRestantes.get();
             int minutos = totalSegundos / 60;
@@ -85,6 +92,9 @@ public class VerificarCodigoEmailController {
         timeline.play();
     }
 
+    /**
+     * Para o timer de contagem regressiva.
+     */
     private void stopTimer() {
         if (timeline != null) {
             timeline.stop();
@@ -92,6 +102,9 @@ public class VerificarCodigoEmailController {
         }
     }
 
+    /**
+     * Lida com a verificação do código de recuperação inserido pelo usuário.
+     */
     @FXML
     private void handleVerificarCodigo() {
         String codigo = codigoField.getText();
@@ -108,6 +121,7 @@ public class VerificarCodigoEmailController {
             return;
         }
 
+        // Valida o código de forma assíncrona
         recuperacaoService.validarCodigo(email, codigo).thenAccept(codigoValido -> {
             Platform.runLater(() -> {
                 if (codigoValido) {
@@ -126,6 +140,9 @@ public class VerificarCodigoEmailController {
         });
     }
 
+    /**
+     * Lida com a solicitação de reenvio do código de recuperação.
+     */
     @FXML
     private void handleReenviarCodigo() {
         String email = SessionManager.getEmailRecuperacao();
@@ -138,6 +155,7 @@ public class VerificarCodigoEmailController {
             reenviarLabel.setText("Enviando...");
         }
 
+        // Reenvia o código e reinicia o timer
         recuperacaoService.iniciarRecuperacao(email).thenAccept(sucesso -> {
             Platform.runLater(() -> {
                 if (sucesso) {
@@ -152,12 +170,20 @@ public class VerificarCodigoEmailController {
         });
     }
 
+    /**
+     * Lida com a ação de voltar para a tela de envio de e-mail.
+
+     */
     @FXML
     private void handleVoltar() throws IOException {
         stopTimer();
         App.setRoot("EnviarEmailRecuperacao");
     }
 
+    /**
+     * Exibe uma mensagem de erro em um pop-up.
+
+     */
     private void exibirMensagemErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");

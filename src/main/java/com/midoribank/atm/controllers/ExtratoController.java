@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+
 public class ExtratoController {
 
     @FXML
@@ -31,6 +32,9 @@ public class ExtratoController {
     private UserProfile currentUser;
     private MovimentacaoDAO movimentacaoDAO;
 
+    /**
+     * Inicializa o controller, carregando os dados do usuário e as movimentações da conta.
+     */
     @FXML
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
@@ -49,11 +53,15 @@ public class ExtratoController {
         paneVoltar.setOnMouseExited(e -> paneVoltar.setCursor(Cursor.DEFAULT));
     }
 
+    /**
+     * Carrega e exibe os dados do usuário na tela.
+     */
     private void carregarDadosUsuario() {
         if (currentUser != null) {
             labelSaldoAtual.setText(String.format("R$ %.2f", currentUser.getSaldo()));
             labelNumeroConta.setText(currentUser.getNumeroConta());
         } else {
+            // Redireciona para a tela de login se não houver usuário na sessão
             try {
                 App.setRoot("Login");
             } catch (IOException e) {
@@ -62,6 +70,9 @@ public class ExtratoController {
         }
     }
 
+    /**
+     * Carrega as movimentações da conta do usuário e as exibe na tela.
+     */
     private void carregarMovimentacoes() {
 
         if (currentUser != null) {
@@ -69,6 +80,7 @@ public class ExtratoController {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
+            // Cria um painel para cada movimentação e o adiciona ao VBox
             for (Movimentacao mov : movimentacoes) {
                 Pane movPane = new Pane();
                 movPane.setPrefHeight(80);
@@ -97,6 +109,9 @@ public class ExtratoController {
         }
     }
 
+    /**
+     * Lida com a ação de voltar para a tela inicial.
+     */
     private void voltarParaHome() {
         try {
             App.setRoot("home");
@@ -105,6 +120,9 @@ public class ExtratoController {
         }
     }
 
+    /**
+     * Navega para a tela de exportar extrato.
+     */
     private void irParaExportar() {
         try {
             App.setRoot("ExportarExtrato");

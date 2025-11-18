@@ -15,6 +15,12 @@ public class App extends Application {
     private static Scene scene;
     private static StackPane rootPane;
 
+    /**
+     * Ponto de entrada principal para a aplicação JavaFX.
+     * Configura o palco (Stage) inicial com a tela de splash.
+
+
+     */
     @Override
     public void start(Stage stage) throws IOException {
         rootPane = new StackPane();
@@ -25,6 +31,7 @@ public class App extends Application {
 
         scene = new Scene(rootPane, 1050, 750);
 
+        // Define o ícone da aplicação
         Image icon = new Image(App.class.getResourceAsStream("/com/midoribank/atm/splash/LogoIcon.png"));
         stage.getIcons().add(icon);
         stage.setTitle("MidoriBank");
@@ -32,28 +39,49 @@ public class App extends Application {
         stage.show();
     }
 
+    /**
+     * Define a tela principal (root) da cena.
+
+
+     */
     public static void setRoot(String fxml) throws IOException {
         Parent newScreen = loadFXML(fxml);
 
         if (rootPane.getChildren().isEmpty()) {
             rootPane.getChildren().add(newScreen);
         } else {
+            // Substitui a tela atual pela nova
             rootPane.getChildren().set(0, newScreen);
         }
     }
 
+    /**
+     * Obtém o painel raiz (StackPane) da aplicação.
+
+     */
     public static StackPane getRootPane() {
         return rootPane;
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        System.out.println(App.class.getResource("/com/midoribank/atm/" + fxml + "/" + fxml + ".fxml"));
+    /**
+     * Carrega um arquivo FXML e retorna o nó raiz.
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/midoribank/atm/" + fxml + "/" + fxml + ".fxml"));
-        System.out.println(fxml + " carregado.");
+
+
+     */
+    private static Parent loadFXML(String fxml) throws IOException {
+        // Constrói o caminho para o arquivo FXML com base na convenção de pastas
+        String fxmlPath = "/com/midoribank/atm/" + fxml + "/" + fxml + ".fxml";
+        System.out.println("Carregando FXML de: " + fxmlPath);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxmlPath));
         return fxmlLoader.load();
     }
 
+    /**
+     * Método principal que inicia a aplicação.
+
+     */
     public static void main(String[] args) {
         launch();
     }

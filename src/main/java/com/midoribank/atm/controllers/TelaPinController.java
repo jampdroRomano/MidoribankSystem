@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.Pane;
 
+
 public class TelaPinController {
 
     @FXML private PasswordField senhaField;
@@ -33,6 +34,9 @@ public class TelaPinController {
     private SessionManager.PinEntryContext context;
     private String senhaCadastroTemporaria = null;
 
+    /**
+     * Inicializa o controller, configurando o contexto da tela de PIN (cadastro ou operação).
+     */
     @FXML
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
@@ -45,6 +49,9 @@ public class TelaPinController {
         configurarBotoesEdicao();
     }
 
+    /**
+     * Configura os elementos visuais da tela, como o título, de acordo com o contexto.
+     */
     private void configurarVisuais() {
         if (labelTitulo != null) {
             if (context == SessionManager.PinEntryContext.CADASTRO_PIN) {
@@ -55,6 +62,9 @@ public class TelaPinController {
         }
     }
 
+    /**
+     * Configura os eventos de clique para os botões numéricos do teclado virtual.
+     */
     private void configurarBotoesNumericos() {
         Pane[] panes = {button0, button1, button2, button3, button4, button5, button6, button7, button8, button9};
         for (int i = 0; i < panes.length; i++) {
@@ -67,6 +77,9 @@ public class TelaPinController {
         }
     }
 
+    /**
+     * Configura os eventos de clique para os botões de controle (confirmar e voltar).
+     */
     private void configurarControles() {
         if (paneConfirmar != null) {
             paneConfirmar.setOnMouseClicked(e -> handleConfirmarSenha());
@@ -78,6 +91,9 @@ public class TelaPinController {
         }
     }
 
+    /**
+     * Configura os eventos de clique para os botões de edição (apagar e limpar).
+     */
     private void configurarBotoesEdicao() {
         if (buttonApagar != null) {
             buttonApagar.setOnMouseClicked(e -> apagarDigito());
@@ -89,6 +105,9 @@ public class TelaPinController {
         }
     }
 
+    /**
+     * Lida com a ação de voltar para a tela anterior, dependendo do contexto.
+     */
     @FXML
     private void handleVoltar() {
         try {
@@ -103,6 +122,9 @@ public class TelaPinController {
         }
     }
 
+    /**
+     * Lida com a confirmação da senha, direcionando para o fluxo de cadastro ou operação.
+     */
     @FXML
     private void handleConfirmarSenha() {
         switch (context) {
@@ -115,6 +137,9 @@ public class TelaPinController {
         }
     }
 
+    /**
+     * Lida com a confirmação do PIN durante o processo de cadastro.
+     */
     private void handleConfirmarCadastroPin() {
         String senhaDigitada = senhaField.getText();
 
@@ -156,6 +181,9 @@ public class TelaPinController {
         }
     }
 
+    /**
+     * Lida com a confirmação do PIN para uma operação financeira.
+     */
     private void handleConfirmarOperacaoPin() {
         if (currentUser == null) {
             exibirMensagemErro("Erro de sessão. Faça login novamente.");
@@ -182,6 +210,9 @@ public class TelaPinController {
         }
     }
 
+    /**
+     * Executa a operação financeira (saque, depósito ou transferência) após a validação do PIN.
+     */
     private void executarOperacaoFinanceira() {
         String tipo = SessionManager.getCurrentTransactionType();
         double valor = SessionManager.getCurrentTransactionAmount();
@@ -208,7 +239,6 @@ public class TelaPinController {
 
             futuroSucesso = this.operacaoService.executarDeposito(currentUser, valor);
 
-        // ADICIONAR ESTE BLOCO ELSE IF
         } else if ("Transferencia".equals(tipo)) {
             UserProfile contaDestino = SessionManager.getContaDestino();
 
@@ -260,12 +290,19 @@ public class TelaPinController {
         });
     }
 
+    /**
+     * Adiciona um dígito ao campo de senha.
+
+     */
     private void adicionarDigito(String digito) {
         if (senhaField.getText().length() < MAX_SENHA_LENGTH) {
             senhaField.appendText(digito);
         }
     }
 
+    /**
+     * Apaga o último dígito do campo de senha.
+     */
     private void apagarDigito() {
         String currentText = senhaField.getText();
         if (!currentText.isEmpty()) {
@@ -273,10 +310,17 @@ public class TelaPinController {
         }
     }
 
+    /**
+     * Limpa o campo de senha.
+     */
     private void limparSenha() {
         senhaField.clear();
     }
 
+    /**
+     * Exibe uma mensagem de erro em um pop-up.
+
+     */
     private void exibirMensagemErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
@@ -285,6 +329,11 @@ public class TelaPinController {
         alert.showAndWait();
     }
 
+    /**
+     * Exibe uma mensagem de informação em um pop-up.
+
+
+     */
     private void exibirMensagemInfo(String titulo, String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);

@@ -7,13 +7,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public class CartaoDAO {
 
+    /**
+     * Cadastra um novo cartão no banco de dados.
+
+     */
     public int cadastrarCartao(String numeroCartao, String cvv, String senhaCartao, int contaId, Connection conn) {
         String sql = "INSERT INTO cartao (numero_cartao, cvv, senha, conta_id) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
+            // Criptografa a senha do cartão antes de salvar
             String senhaHash = CriptografiaUtils.hashPassword(senhaCartao);
 
             stmt.setString(1, numeroCartao);
@@ -23,6 +29,7 @@ public class CartaoDAO {
 
             int rowsAffected = stmt.executeUpdate();
 
+            // Retorna o ID gerado se o cadastro for bem-sucedido
             if (rowsAffected > 0) {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {

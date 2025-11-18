@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+
 public class PdfGenerationService {
 
     private static final Color COLOR_MIDORI_GREY = new Color(115, 115, 115);
@@ -33,6 +34,10 @@ public class PdfGenerationService {
     private static final Font FONT_FOOTER = FontFactory.getFont(FontFactory.HELVETICA, 8, Color.GRAY);
     private static final Font FONT_SALDO = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.BLACK);
 
+    /**
+     * Gera um extrato bancário em formato PDF.
+
+     */
     public boolean gerarPdf(UserProfile user, List<Movimentacao> movimentacoes, String filePath) {
         Document document = new Document(PageSize.A4);
         try {
@@ -53,12 +58,16 @@ public class PdfGenerationService {
         }
     }
 
+    /**
+     * Adiciona o cabeçalho ao documento PDF, incluindo o logo e o título.
+     */
     private void addHeader(Document document) throws DocumentException, IOException {
         PdfPTable headerTable = new PdfPTable(2);
         headerTable.setWidthPercentage(100);
         headerTable.setWidths(new float[]{1, 4});
         headerTable.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 
+        // Adiciona o logo do banco
         try (InputStream is = App.class.getResourceAsStream("/com/midoribank/atm/splash/LogoIcon.png")) {
             if (is != null) {
                 byte[] bytes = is.readAllBytes();
@@ -73,6 +82,7 @@ public class PdfGenerationService {
             headerTable.addCell(" ");
         }
 
+        // Adiciona o título e subtítulo
         Paragraph title = new Paragraph("MidoriBank", FONT_TITLE);
         title.getFont().setColor(COLOR_MIDORI_GREY);
         
@@ -90,6 +100,9 @@ public class PdfGenerationService {
         document.add(new Paragraph(" ")); 
     }
 
+    /**
+     * Adiciona as informações do usuário ao documento PDF.
+     */
     private void addUserInfo(Document document, UserProfile user) throws DocumentException {
         Paragraph info = new Paragraph();
         info.setFont(FONT_BODY); 
@@ -103,11 +116,15 @@ public class PdfGenerationService {
         document.add(new Paragraph(" "));
     }
 
+    /**
+     * Adiciona a tabela de movimentações ao documento PDF.
+     */
     private void addMovimentacoesTable(Document document, List<Movimentacao> movimentacoes) throws DocumentException {
         PdfPTable table = new PdfPTable(4);
         table.setWidthPercentage(100);
         table.setWidths(new float[]{2, 4, 2, 2});
 
+        // Cabeçalho da tabela
         String[] headers = {"Data", "Tipo de Operação", "Valor (R$)", "Tipo"};
         for (String header : headers) {
             PdfPCell cell = new PdfPCell(new Phrase(header, FONT_HEADER));
@@ -118,6 +135,7 @@ public class PdfGenerationService {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         
+        // Preenche a tabela com as movimentações
         for (Movimentacao mov : movimentacoes) {
             
             table.addCell(new Phrase(mov.getDataHora().format(formatter), FONT_BODY));
@@ -143,6 +161,9 @@ public class PdfGenerationService {
         document.add(table);
     }
 
+    /**
+     * Adiciona o rodapé ao documento PDF.
+     */
     private void addFooter(Document document) throws DocumentException {
         Paragraph footer = new Paragraph(
                 "\n\nDocumento gerado automaticamente pelo sistema MidoriBank em " + 

@@ -6,7 +6,6 @@ target/
 logs/
 
 # Configurações de IDE específicas do usuário
-# (VS Code, NetBeans, Eclipse, IntelliJ)
 .vscode/
 .idea/
 nbproject/private/
@@ -21,6 +20,5 @@ nbproject/private/
 Thumbs.db
 *~
 
-# Arquivos de ambiente (se você externalizar senhas)
-*.env
+# Arquivos de ambiente 
 /src/main/resources/config.properties

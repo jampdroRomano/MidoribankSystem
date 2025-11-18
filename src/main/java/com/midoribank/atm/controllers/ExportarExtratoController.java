@@ -24,6 +24,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import java.util.concurrent.CompletableFuture;
 
+
 public class ExportarExtratoController {
 
     @FXML private Label labelSaldoAtual;
@@ -42,6 +43,9 @@ public class ExportarExtratoController {
     private final Paint FILL_SELECTED = Color.web("#14FF00");
     private final Paint FILL_TRANSPARENT = Color.TRANSPARENT;
 
+    /**
+     * Inicializa o controller, carregando dados do usuário e configurando eventos.
+     */
     @FXML
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
@@ -53,6 +57,9 @@ public class ExportarExtratoController {
         selecionarPeriodo(30);
     }
 
+    /**
+     * Carrega e exibe os dados do usuário na tela.
+     */
     private void carregarDadosUsuario() {
         if (currentUser != null) {
             labelSaldoAtual.setText(String.format("R$ %.2f", currentUser.getSaldo()));
@@ -60,6 +67,9 @@ public class ExportarExtratoController {
         }
     }
 
+    /**
+     * Configura os eventos de clique e hover para os elementos da tela.
+     */
     private void configurarEventos() {
         paneVoltar.setOnMouseClicked(e -> voltarParaHome());
         paneAbaHistorico.setOnMouseClicked(e -> voltarParaExtrato());
@@ -87,6 +97,10 @@ public class ExportarExtratoController {
         circle90.setOnMouseExited(e -> circle90.setCursor(Cursor.DEFAULT));
     }
 
+    /**
+     * Seleciona o período de dias para o extrato e atualiza a interface.
+
+     */
     private void selecionarPeriodo(int dias) {
         periodoSelecionado = dias;
         circle30.setFill(dias == 30 ? FILL_SELECTED : FILL_TRANSPARENT);
@@ -94,11 +108,15 @@ public class ExportarExtratoController {
         circle90.setFill(dias == 90 ? FILL_SELECTED : FILL_TRANSPARENT);
     }
 
+    /**
+     * Lida com a geração do extrato em PDF de forma assíncrona.
+     */
     private void handleGerarExtrato() {
         LoadingUtils.showLoading("Gerando PDF...");
 
         CompletableFuture.runAsync(() -> {
             try {
+                // Filtra as movimentações pelo período selecionado
                 LocalDate dataFiltro = LocalDate.now().minusDays(periodoSelecionado);
                 List<Movimentacao> todas = movimentacaoDAO.listarMovimentacoesPorContaId(currentUser.getContaId());
                 
@@ -106,15 +124,18 @@ public class ExportarExtratoController {
                         .filter(m -> m.getDataHora().toLocalDate().isAfter(dataFiltro))
                         .collect(Collectors.toList());
 
+                // Define o caminho e nome do arquivo, evitando sobrescrever arquivos existentes
                 String userHome = System.getProperty("user.home");
                 String baseName = "Extrato_MidoriBank_" + periodoSelecionado + "dias.pdf";
                 String baseFilePath = userHome + File.separator + "Desktop" + File.separator + baseName;
 
                 String finalFilePath = getAvailableFilePath(baseFilePath);
 
+                // Gera o PDF
                 PdfGenerationService pdfService = new PdfGenerationService();
                 boolean sucesso = pdfService.gerarPdf(currentUser, filtradas, finalFilePath);
 
+                // Atualiza a interface na thread do JavaFX
                 Platform.runLater(() -> {
                     LoadingUtils.hideLoading();
                     if (sucesso) {
@@ -134,6 +155,11 @@ public class ExportarExtratoController {
         });
     }
 
+    /**
+     * Verifica se um arquivo já existe e retorna um novo nome de arquivo com um número sequencial se necessário.
+
+
+     */
     private String getAvailableFilePath(String baseFilePath) {
         File file = new File(baseFilePath);
         if (!file.exists()) {
@@ -164,7 +190,9 @@ public class ExportarExtratoController {
         return newFile.getAbsolutePath();
     }
 
-
+    /**
+     * Retorna para a tela de extrato.
+     */
     private void voltarParaExtrato() {
         try {
             App.setRoot("Extrato");
@@ -173,6 +201,9 @@ public class ExportarExtratoController {
         }
     }
 
+    /**
+     * Retorna para a tela inicial.
+     */
     private void voltarParaHome() {
         try {
             App.setRoot("home");
@@ -181,6 +212,11 @@ public class ExportarExtratoController {
         }
     }
     
+    /**
+     * Exibe uma mensagem de erro em um pop-up.
+
+
+     */
     private void exibirMensagemErro(String titulo, String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titulo);
@@ -189,6 +225,11 @@ public class ExportarExtratoController {
         alert.showAndWait();
     }
 
+    /**
+     * Exibe uma mensagem de informação em um pop-up.
+
+
+     */
     private void exibirMensagemInfo(String titulo, String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);

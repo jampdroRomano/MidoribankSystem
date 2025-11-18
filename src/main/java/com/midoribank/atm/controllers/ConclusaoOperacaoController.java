@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 
+
 public class ConclusaoOperacaoController {
 
     @FXML private Label labelMensagemSucesso;
@@ -22,11 +23,15 @@ public class ConclusaoOperacaoController {
     private UserProfile currentUser;
     private String tipoOperacao;
 
+    /**
+     * Inicializa o controller, configurando a tela com os dados da operação concluída.
+     */
     @FXML
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
         this.tipoOperacao = SessionManager.getCurrentTransactionType();
 
+        // Redireciona para a home se não houver usuário ou tipo de operação na sessão
         if (currentUser == null || tipoOperacao == null) {
             try { App.setRoot("home"); } catch (IOException e) { e.printStackTrace(); }
             return;
@@ -36,9 +41,13 @@ public class ConclusaoOperacaoController {
         configurarEventos();
     }
 
+    /**
+     * Configura os textos e informações da tela de acordo com o tipo de operação.
+     */
     private void configurarTela() {
         labelTituloOperacao.setText(tipoOperacao);
 
+        // Personaliza as mensagens de acordo com o tipo de operação
         if ("Transferencia".equals(tipoOperacao)) {
             labelMensagemSucesso.setText("Transferência concluída com sucesso!");
             labelPergunta.setText("Deseja realizar outra transferência?");
@@ -47,10 +56,14 @@ public class ConclusaoOperacaoController {
             labelPergunta.setText("Deseja realizar outro " + tipoOperacao.toLowerCase() + "?");
         }
 
+        // Exibe os dados da conta do usuário
         labelNumeroConta.setText(currentUser.getNumeroConta());
         labelSaldoAtual.setText(String.format("R$ %.2f", currentUser.getSaldo()));
     }
 
+    /**
+     * Configura os eventos de clique para os botões "Sim" e "Não".
+     */
     private void configurarEventos() {
         if (paneSim != null) {
             paneSim.setOnMouseClicked(e -> handleSim());
@@ -67,6 +80,9 @@ public class ConclusaoOperacaoController {
         }
     }
 
+    /**
+     * Lida com o clique no botão "Sim", redirecionando para a tela da operação correspondente.
+     */
     private void handleSim() {
         SessionManager.clearTransaction();
         try {
@@ -84,6 +100,9 @@ public class ConclusaoOperacaoController {
         }
     }
 
+    /**
+     * Lida com o clique no botão "Não", redirecionando para a tela inicial.
+     */
     private void handleNao() {
         SessionManager.clearTransaction();
         try {

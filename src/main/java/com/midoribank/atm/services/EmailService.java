@@ -3,6 +3,7 @@ package com.midoribank.atm.services;
 import com.midoribank.atm.App;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -11,6 +12,7 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+
 
 public class EmailService {
 
@@ -24,8 +26,13 @@ public class EmailService {
         carregarCredenciais();
     }
 
+    /**
+     * Carrega as credenciais de e-mail (usuário e senha) a partir do arquivo config.properties.
+
+     */
     private void carregarCredenciais() {
         Properties props = new Properties();
+        // O arquivo config.properties deve estar em src/main/resources
         try (InputStream input = App.class.getResourceAsStream("/config.properties")) {
 
             if (input == null) {
@@ -35,6 +42,7 @@ public class EmailService {
             }
 
             props.load(input);
+            // TODO: Mover credenciais para um local mais seguro, como variáveis de ambiente.
             this.EMAIL_REMETENTE = props.getProperty("GMAIL_USER");
             this.SENHA_REMETENTE = props.getProperty("GMAIL_PASSWORD");
 
@@ -52,7 +60,12 @@ public class EmailService {
         }
     }
 
-    public java.util.concurrent.CompletableFuture<Boolean> enviarEmail(String destinatario, String assunto, String corpoEmail) {
+    /**
+     * Envia um e-mail de forma assíncrona.
+
+     */
+    public CompletableFuture<Boolean> enviarEmail(String destinatario, String assunto, String corpoEmail) {
+        // Executa o envio de e-mail com uma tela de loading
         return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Enviando email...", () -> {
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");

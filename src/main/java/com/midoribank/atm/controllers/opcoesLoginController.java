@@ -10,6 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
+
 public class opcoesLoginController {
 
     @FXML
@@ -24,6 +25,9 @@ public class opcoesLoginController {
     @FXML
     private Pane paneEncerrar; 
 
+    /**
+     * Inicializa o controller, configurando os eventos de clique e animações.
+     */
     @FXML
     public void initialize() {
         recarga_cartao.setOnMouseClicked(e -> showInDevelopmentAlert());
@@ -37,6 +41,10 @@ public class opcoesLoginController {
         AnimationUtils.setupNodeHoverEffects(paneEncerrar);
     }
 
+    /**
+     * Lida com o clique para entrar na conta, navegando para a tela de login.
+
+     */
     @FXML
     private void handleEntrarComContaClick(MouseEvent event) {
         try {
@@ -46,6 +54,9 @@ public class opcoesLoginController {
         }
     }
 
+    /**
+     * Lida com a ação de encerrar a aplicação, exibindo um diálogo de confirmação.
+     */
     private void handleEncerrar() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmação de Saída");
@@ -59,6 +70,9 @@ public class opcoesLoginController {
         }
     }
 
+    /**
+     * Exibe um alerta informando que a função está em desenvolvimento.
+     */
     private void showInDevelopmentAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Informação");

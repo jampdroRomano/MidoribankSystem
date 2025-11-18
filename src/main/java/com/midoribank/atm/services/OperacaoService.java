@@ -6,6 +6,8 @@ import com.midoribank.atm.dao.MovimentacaoDAO;
 import com.midoribank.atm.models.UserProfile;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.CompletableFuture;
+
 
 public class OperacaoService {
 
@@ -17,17 +19,23 @@ public class OperacaoService {
         this.movimentacaoDAO = new MovimentacaoDAO();
     }
 
-    public java.util.concurrent.CompletableFuture<Boolean> executarSaque(UserProfile user, double valor) {
+    /**
+     * Executa uma operação de saque de forma assíncrona e transacional.
+
+     */
+    public CompletableFuture<Boolean> executarSaque(UserProfile user, double valor) {
         return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Realizando saque...", () -> {
             Connection conn = null;
             try {
                 conn = ConnectionFactory.getConnection();
-                conn.setAutoCommit(false);
+                conn.setAutoCommit(false); // Inicia a transação
 
                 double novoSaldo = user.getSaldo() - valor;
 
+                // Atualiza o saldo da conta
                 boolean saldoAtualizado = contaDAO.atualizarSaldo(user.getNumeroConta(), novoSaldo, conn);
 
+                // Registra a movimentação de saque
                 boolean movimentacaoRegistrada = movimentacaoDAO.registrarMovimentacao(
                         conn,
                         user.getContaId(),
@@ -37,7 +45,7 @@ public class OperacaoService {
                 );
 
                 if (saldoAtualizado && movimentacaoRegistrada) {
-                    conn.commit();
+                    conn.commit(); // Confirma a transação
                     return true;
                 } else {
                     throw new SQLException("Falha ao registrar saque, revertendo.");
@@ -46,7 +54,7 @@ public class OperacaoService {
             } catch (SQLException e) {
                 System.err.println("Erro na transação de saque: " + e.getMessage());
                 try {
-                    if (conn != null) conn.rollback();
+                    if (conn != null) conn.rollback(); // Reverte a transação em caso de erro
                 } catch (SQLException ex) {
                     System.err.println("Erro ao reverter transação: " + ex.getMessage());
                 }
@@ -64,17 +72,23 @@ public class OperacaoService {
         });
     }
 
-    public java.util.concurrent.CompletableFuture<Boolean> executarDeposito(UserProfile user, double valor) {
+    /**
+     * Executa uma operação de depósito de forma assíncrona e transacional.
+
+     */
+    public CompletableFuture<Boolean> executarDeposito(UserProfile user, double valor) {
         return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Realizando depósito...", () -> {
             Connection conn = null;
             try {
                 conn = ConnectionFactory.getConnection();
-                conn.setAutoCommit(false);
+                conn.setAutoCommit(false); // Inicia a transação
 
                 double novoSaldo = user.getSaldo() + valor;
 
+                // Atualiza o saldo da conta
                 boolean saldoAtualizado = contaDAO.atualizarSaldo(user.getNumeroConta(), novoSaldo, conn);
 
+                // Registra a movimentação de depósito
                 boolean movimentacaoRegistrada = movimentacaoDAO.registrarMovimentacao(
                         conn,
                         user.getContaId(),
@@ -84,7 +98,7 @@ public class OperacaoService {
                 );
 
                 if (saldoAtualizado && movimentacaoRegistrada) {
-                    conn.commit();
+                    conn.commit(); // Confirma a transação
                     return true;
                 } else {
                     throw new SQLException("Falha ao registrar depósito, revertendo.");
@@ -93,7 +107,7 @@ public class OperacaoService {
             } catch (SQLException e) {
                 System.err.println("Erro na transação de depósito: " + e.getMessage());
                 try {
-                    if (conn != null) conn.rollback();
+                    if (conn != null) conn.rollback(); // Reverte a transação em caso de erro
                 } catch (SQLException ex) {
                     System.err.println("Erro ao reverter transação: " + ex.getMessage());
                 }
@@ -111,20 +125,27 @@ public class OperacaoService {
         });
     }
 
-    public java.util.concurrent.CompletableFuture<Boolean> executarTransferencia(UserProfile userOrigem, UserProfile userDestino, double valor) {
+    /**
+     * Executa uma operação de transferência entre duas contas de forma assíncrona e transacional.
+
+     */
+    public CompletableFuture<Boolean> executarTransferencia(UserProfile userOrigem, UserProfile userDestino, double valor) {
         return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Realizando transferência...", () -> {
             Connection conn = null;
             try {
-                Thread.sleep(2000);
+                Thread.sleep(2000); // Simula um tempo de processamento
                 conn = ConnectionFactory.getConnection();
-                conn.setAutoCommit(false); 
+                conn.setAutoCommit(false); // Inicia a transação
 
+                // Atualiza o saldo da conta de origem
                 double novoSaldoOrigem = userOrigem.getSaldo() - valor;
                 boolean saldoOrigemAtualizado = contaDAO.atualizarSaldo(userOrigem.getNumeroConta(), novoSaldoOrigem, conn);
 
+                // Atualiza o saldo da conta de destino
                 double novoSaldoDestino = userDestino.getSaldo() + valor;
                 boolean saldoDestinoAtualizado = contaDAO.atualizarSaldo(userDestino.getNumeroConta(), novoSaldoDestino, conn);
 
+                // Registra a movimentação de envio na conta de origem
                 boolean movRegistradaOrigem = movimentacaoDAO.registrarMovimentacao(
                         conn,
                         userOrigem.getContaId(),
@@ -133,6 +154,7 @@ public class OperacaoService {
                         userDestino.getContaId() 
                 );
 
+                // Registra a movimentação de recebimento na conta de destino
                 boolean movRegistradaDestino = movimentacaoDAO.registrarMovimentacao(
                         conn,
                         userDestino.getContaId(),
@@ -142,7 +164,7 @@ public class OperacaoService {
                 );
 
                 if (saldoOrigemAtualizado && saldoDestinoAtualizado && movRegistradaOrigem && movRegistradaDestino) {
-                    conn.commit();
+                    conn.commit(); // Confirma a transação
                     return true;
                 } else {
                     throw new SQLException("Falha ao registrar transferência em todas as partes, revertendo.");
@@ -151,7 +173,7 @@ public class OperacaoService {
             } catch (SQLException | InterruptedException e) {
                 System.err.println("Erro na transação de transferência: " + e.getMessage());
                 try {
-                    if (conn != null) conn.rollback(); // Garante o rollback
+                    if (conn != null) conn.rollback(); // Garante o rollback em caso de erro
                 } catch (SQLException ex) {
                     System.err.println("Erro ao reverter transação: " + ex.getMessage());
                 }

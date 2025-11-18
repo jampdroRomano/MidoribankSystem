@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
+
 public class CadastroCartaoController {
 
     @FXML private Button cadastrarCartaoButton;
@@ -19,8 +20,12 @@ public class CadastroCartaoController {
     @FXML private Label nomeCartao;
     @FXML private Label cvvCartao;
 
+    /**
+     * Inicializa o controller, gerando e exibindo os dados do novo cartão.
+     */
     @FXML
     public void initialize() {
+        // Exibe o nome do usuário no cartão
         String nomeUsuario = SessionManager.getCadastroNome();
         if (nomeUsuario != null && !nomeUsuario.isEmpty()) {
             nomeCartao.setText(nomeUsuario.toUpperCase());
@@ -28,6 +33,7 @@ public class CadastroCartaoController {
             nomeCartao.setText("NOME DO CLIENTE");
         }
 
+        // Gera número do cartão e CVV aleatórios
         Random rand = new Random();
 
         String numAleatorio = String.format("%04d%04d%04d%04d",
@@ -41,17 +47,22 @@ public class CadastroCartaoController {
         numeroCartao.setText(numAleatorio);
         cvvCartao.setText(cvvAleatorio);
 
+        // Configura o botão de cadastrar cartão
         if (cadastrarCartaoButton != null) {
             cadastrarCartaoButton.setOnAction(e -> handleCadastroCartaoClick());
             AnimationUtils.setupButtonHoverEffects(cadastrarCartaoButton);
         }
 
+        // Configura o botão de voltar
         if (btnVoltarCadastrarCartao != null) {
             btnVoltarCadastrarCartao.setOnMouseClicked(e -> handleVoltarClick());
             AnimationUtils.setupNodeHoverEffects(btnVoltarCadastrarCartao);
         }
     }
 
+    /**
+     * Lida com o clique no botão de cadastrar cartão, salvando os dados na sessão e avançando para a tela de PIN.
+     */
     private void handleCadastroCartaoClick() {
         SessionManager.setCadastroCartao(numeroCartao.getText(), cvvCartao.getText());
         SessionManager.setPinEntryContext(SessionManager.PinEntryContext.CADASTRO_PIN);
@@ -64,6 +75,9 @@ public class CadastroCartaoController {
         }
     }
 
+    /**
+     * Lida com o clique no botão de voltar, retornando para a tela de cadastro de usuário.
+     */
     @FXML
     private void handleVoltarClick() {
         try {
@@ -74,6 +88,10 @@ public class CadastroCartaoController {
         }
     }
 
+    /**
+     * Exibe uma mensagem de erro em um pop-up.
+
+     */
     private void exibirMensagemErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");

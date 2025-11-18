@@ -1,5 +1,6 @@
 package com.midoribank.atm.models;
 
+
 public class UserProfile {
     private int id;
     private int contaId;
@@ -11,9 +12,11 @@ public class UserProfile {
     private double saldo;
     private String numeroCartao;
     private String senhaCartaoHash;
-
     private String cvvCartao;
 
+    /**
+     * Construtor para criar um perfil de usuário completo.
+     */
     public UserProfile(int id, int contaId, String nome, String email, String numeroConta, String agencia, String senhaContaHash, double saldo, String numeroCartao, String senhaCartaoHash, String cvvCartao) {
         this.id = id;
         this.contaId = contaId;
@@ -28,6 +31,8 @@ public class UserProfile {
         this.cvvCartao = cvvCartao;
     }
 
+    // Getters para todos os atributos
+
     public int getId() { return id; }
     public int getContaId() { return contaId; }
     public String getNome() { return nome; }
@@ -40,6 +45,10 @@ public class UserProfile {
     public String getSenhaCartaoHash() { return senhaCartaoHash; }
     public String getCvvCartao() { return cvvCartao; }
 
+    /**
+     * Define o novo saldo da conta.
+
+     */
     public void setSaldo(double novoSaldo) {
         this.saldo = novoSaldo;
     }

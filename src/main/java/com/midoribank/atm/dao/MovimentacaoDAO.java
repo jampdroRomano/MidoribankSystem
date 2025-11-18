@@ -8,12 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MovimentacaoDAO {
 
+    /*     * Enum para representar os tipos de movimentação possíveis.
+     */
     public enum TipoMovimentacao {
         SAQUE, DEPOSITO, TRANSFERENCIA_ENVIADA, TRANSFERENCIA_RECEBIDA
     }
 
+    /*     * Registra uma nova movimentação no banco de dados.
+
+     */
     public boolean registrarMovimentacao(Connection conn, int contaId, TipoMovimentacao tipo, double valor, Integer contaDestinoId) {
         String sql = "INSERT INTO movimentacao (conta_id, tipo_movimentacao, valor, conta_destino_id) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -32,6 +38,9 @@ public class MovimentacaoDAO {
         }
     }
 
+    /*     * Lista todas as movimentações de uma conta.
+
+     */
     public List<Movimentacao> listarMovimentacoesPorContaId(int contaId) {
         String sql = "SELECT * FROM movimentacao WHERE conta_id = ? ORDER BY data_hora DESC";
         List<Movimentacao> movimentacoes = new ArrayList<>();
@@ -58,3 +67,4 @@ public class MovimentacaoDAO {
         return movimentacoes;
     }
 }
+

@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
+
 public class DadosCartaoController {
 
     @FXML
@@ -31,6 +32,8 @@ public class DadosCartaoController {
 
     private UserProfile currentUser;
 
+    /*     * Inicializa o controller, carregando os dados do cartão do usuário.
+     */
     @FXML
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
@@ -38,6 +41,8 @@ public class DadosCartaoController {
         configurarEventos();
     }
 
+    /*     * Carrega e exibe os dados do usuário e do cartão na tela.
+     */
     private void carregarDadosUsuario() {
         if (currentUser != null) {
             labelNumeroConta.setText(currentUser.getNumeroConta());
@@ -46,6 +51,7 @@ public class DadosCartaoController {
             nomeCartao.setText(currentUser.getNome());
             cvvCartao.setText(currentUser.getCvvCartao());
         } else {
+            // Redireciona para a tela de login se não houver usuário na sessão
             try {
                 App.setRoot("Login");
             } catch (IOException e) {
@@ -54,11 +60,15 @@ public class DadosCartaoController {
         }
     }
 
+    /*     * Configura os eventos de clique, como o botão de voltar.
+     */
     private void configurarEventos() {
         paneVoltar.setOnMouseClicked(e -> voltarParaHome());
         AnimationUtils.setupNodeHoverEffects(paneVoltar);
     }
 
+    /*     * Lida com a ação de voltar para a tela inicial.
+     */
     private void voltarParaHome() {
         try {
             App.setRoot("home");
@@ -67,3 +77,4 @@ public class DadosCartaoController {
         }
     }
 }
+

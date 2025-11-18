@@ -9,8 +9,15 @@ import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+/**
+ * Classe utilitária para fornecer várias animações JavaFX pré-configuradas.
+
+ */
 public class AnimationUtils {
 
+    /**
+     * Aplica uma animação de fade-in a um nó.
+     */
     public static void fadeIn(Node node, double duration) {
         FadeTransition ft = new FadeTransition(Duration.millis(duration), node);
         ft.setFromValue(0.0);
@@ -18,6 +25,11 @@ public class AnimationUtils {
         ft.play();
     }
 
+    /**
+     * Aplica uma animação de fade-out a um nó.
+
+
+     */
     public static void fadeOut(Node node, double duration) {
         FadeTransition ft = new FadeTransition(Duration.millis(duration), node);
         ft.setFromValue(1.0);
@@ -25,6 +37,9 @@ public class AnimationUtils {
         ft.play();
     }
 
+    /**
+     * Aplica uma animação de slide-in da direita para a esquerda.
+     */
     public static void slideInFromRight(Node node, double duration) {
         double originalX = node.getLayoutX();
         node.setLayoutX(originalX + 300);
@@ -42,6 +57,9 @@ public class AnimationUtils {
         pt.play();
     }
 
+    /**
+     * Aplica uma animação de slide-in da esquerda para a direita.
+     */
     public static void slideInFromLeft(Node node, double duration) {
         TranslateTransition tt = new TranslateTransition(Duration.millis(duration), node);
         tt.setFromX(-300);
@@ -55,6 +73,9 @@ public class AnimationUtils {
         pt.play();
     }
 
+    /**
+     * Aplica uma animação de slide-in de cima para baixo.
+     */
     public static void slideInFromTop(Node node, double duration) {
         TranslateTransition tt = new TranslateTransition(Duration.millis(duration), node);
         tt.setFromY(-200);
@@ -68,6 +89,9 @@ public class AnimationUtils {
         pt.play();
     }
 
+    /**
+     * Aplica uma animação de slide-in de baixo para cima.
+     */
     public static void slideInFromBottom(Node node, double duration) {
         TranslateTransition tt = new TranslateTransition(Duration.millis(duration), node);
         tt.setFromY(200);
@@ -81,6 +105,9 @@ public class AnimationUtils {
         pt.play();
     }
 
+    /**
+     * Aplica uma animação de scale-in (aumento de escala).
+     */
     public static void scaleIn(Node node, double duration) {
         ScaleTransition st = new ScaleTransition(Duration.millis(duration), node);
         st.setFromX(0.0);
@@ -97,6 +124,9 @@ public class AnimationUtils {
         pt.play();
     }
 
+    /**
+     * Aplica uma animação de "shake" (tremor) a um nó.
+     */
     public static void shake(Node node) {
         TranslateTransition tt = new TranslateTransition(Duration.millis(70), node);
         tt.setFromX(0);
@@ -106,6 +136,9 @@ public class AnimationUtils {
         tt.play();
     }
 
+    /**
+     * Aplica uma animação de pulso a um nó.
+     */
     public static void pulse(Node node) {
         ScaleTransition st = new ScaleTransition(Duration.millis(200), node);
         st.setFromX(1.0);
@@ -117,6 +150,9 @@ public class AnimationUtils {
         st.play();
     }
 
+    /**
+     * Aplica uma animação de "bounce" (salto) a um nó.
+     */
     public static void bounce(Node node) {
         TranslateTransition tt = new TranslateTransition(Duration.millis(500), node);
         tt.setFromY(0);
@@ -127,6 +163,9 @@ public class AnimationUtils {
         tt.play();
     }
 
+    /**
+     * Aplica um efeito de brilho (glow) a um nó.
+     */
     public static void glowEffect(Node node, Color color, double radius) {
         DropShadow glow = new DropShadow();
         glow.setColor(color);
@@ -142,6 +181,9 @@ public class AnimationUtils {
         timeline.play();
     }
 
+    /**
+     * Remove qualquer efeito de um nó após uma certa duração.
+     */
     public static void removeEffect(Node node, double duration) {
         FadeTransition ft = new FadeTransition(Duration.millis(duration), node);
         ft.setFromValue(1.0);
@@ -150,6 +192,9 @@ public class AnimationUtils {
         ft.play();
     }
 
+    /**
+     * Aplica um fade-in escalonado a uma série de nós.
+     */
     public static void staggeredFadeIn(Node[] nodes, double delayBetween, double duration) {
         for (int i = 0; i < nodes.length; i++) {
             final Node node = nodes[i];
@@ -161,6 +206,9 @@ public class AnimationUtils {
         }
     }
 
+    /**
+     * Executa uma animação de sucesso (pulso e brilho verde).
+     */
     public static void successAnimation(Node node) {
         ScaleTransition st = new ScaleTransition(Duration.millis(150), node);
         st.setToX(1.15);
@@ -180,6 +228,9 @@ public class AnimationUtils {
         st.play();
     }
 
+    /**
+     * Executa uma animação de erro (tremor e brilho vermelho).
+     */
     public static void errorAnimation(Node node) {
         shake(node);
         glowEffect(node, Color.web("#FF0000"), 15);
@@ -190,6 +241,9 @@ public class AnimationUtils {
         removeGlow.play();
     }
 
+    /**
+     * Executa uma animação de clique de botão (escala reduzida).
+     */
     public static void buttonClickAnimation(Node node) {
         ScaleTransition st = new ScaleTransition(Duration.millis(100), node);
         st.setToX(0.95);
@@ -199,6 +253,9 @@ public class AnimationUtils {
         st.play();
     }
 
+    /**
+     * Executa uma transição suave entre dois nós (fade-out e fade-in).
+     */
     public static void smoothTransition(Node fromNode, Node toNode, double duration) {
         fadeOut(fromNode, duration / 2);
         PauseTransition pause = new PauseTransition(Duration.millis(duration / 2));
@@ -206,6 +263,9 @@ public class AnimationUtils {
         pause.play();
     }
 
+    /**
+     * Aplica uma animação de rotação com fade-in.
+     */
     public static void rotateIn(Node node, double duration) {
         RotateTransition rt = new RotateTransition(Duration.millis(duration), node);
         rt.setFromAngle(180);
@@ -219,6 +279,9 @@ public class AnimationUtils {
         pt.play();
     }
 
+    /**
+     * Aplica uma animação de "flip" (rotação no eixo Y) com fade-in.
+     */
     public static void flipIn(Node node, double duration) {
         RotateTransition rt = new RotateTransition(Duration.millis(duration), node);
         rt.setAxis(javafx.geometry.Point3D.ZERO.add(0, 1, 0));
@@ -233,6 +296,10 @@ public class AnimationUtils {
         ParallelTransition pt = new ParallelTransition(rt, ft);
         pt.play();
     }
+
+    /**
+     * Configura efeitos de hover e clique para um botão.
+     */
     public static void setupButtonHoverEffects(Button button) {
         if (button != null) {
             ColorAdjust hoverEffect = new ColorAdjust(0, 0, -0.1, 0);
@@ -257,6 +324,9 @@ public class AnimationUtils {
         }
     }
 
+    /**
+     * Configura efeitos de hover e clique para um nó genérico.
+     */
     public static void setupNodeHoverEffects(Node node) {
         if (node != null) {
             ColorAdjust hoverEffect = new ColorAdjust(0, 0, -0.1, 0);
@@ -281,3 +351,4 @@ public class AnimationUtils {
         }
     }
 }
+

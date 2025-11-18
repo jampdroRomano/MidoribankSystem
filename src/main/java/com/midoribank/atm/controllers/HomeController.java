@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
+
 public class HomeController {
 
     @FXML
@@ -35,6 +36,9 @@ public class HomeController {
 
     private UserProfile currentUser;
 
+    /**
+     * Inicializa o controller da tela inicial, carregando os dados do usuário e configurando os eventos.
+     */
     @FXML
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
@@ -42,11 +46,15 @@ public class HomeController {
         configurarEventos();
     }
 
+    /**
+     * Carrega e exibe os dados do usuário na tela.
+     */
     private void carregarDadosUsuario() {
         if (currentUser != null) {
             labelNomeUsuario.setText(currentUser.getNome());
             labelNumeroConta.setText(currentUser.getNumeroConta());
         } else {
+            // Redireciona para a tela de login se não houver usuário na sessão
             try {
                 App.setRoot("Login");
             } catch (IOException e) {
@@ -55,6 +63,9 @@ public class HomeController {
         }
     }
 
+    /**
+     * Configura os eventos de clique e hover para os botões de ação da tela inicial.
+     */
     private void configurarEventos() {
         paneSacar.setOnMouseClicked(e -> abrirTelaSaque());
         paneDepositar.setOnMouseClicked(e -> abrirTelaDeposito());
@@ -74,6 +85,9 @@ public class HomeController {
         AnimationUtils.setupNodeHoverEffects(paneDetalhes);
     }
 
+    /**
+     * Abre a tela de saque.
+     */
     private void abrirTelaSaque() {
         try {
             SessionManager.setOperacaoContext("Saque");
@@ -83,6 +97,9 @@ public class HomeController {
         }
     }
 
+    /**
+     * Abre a tela de depósito.
+     */
     private void abrirTelaDeposito() {
         try {
             SessionManager.setOperacaoContext("Depósito");
@@ -92,6 +109,9 @@ public class HomeController {
         }
     }
 
+    /**
+     * Abre a tela de transferência.
+     */
     private void abrirTelaTransferencia() {
         try {
             SessionManager.setOperacaoContext("Transferencia");
@@ -101,6 +121,9 @@ public class HomeController {
         }
     }
 
+    /**
+     * Lida com o encerramento da sessão do usuário.
+     */
     private void handleEncerrar() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmação de Saída");
@@ -126,6 +149,9 @@ public class HomeController {
         }
     }
 
+    /**
+     * Exibe um alerta informando que a função está em desenvolvimento.
+     */
     private void showInDevelopmentAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Informação");
@@ -134,6 +160,9 @@ public class HomeController {
         alert.showAndWait();
     }
 
+    /**
+     * Abre a tela de extrato.
+     */
     private void abrirTelaExtrato() {
         try {
             App.setRoot("Extrato");
@@ -142,6 +171,9 @@ public class HomeController {
         }
     }
 
+    /**
+     * Abre a tela de dados do cartão.
+     */
     private void abrirTelaDadosCartao() {
         try {
             App.setRoot("DadosCartao");
@@ -150,6 +182,9 @@ public class HomeController {
         }
     }
 
+    /**
+     * Abre a tela de detalhes da conta.
+     */
     private void abrirTelaDetalhesDaConta() {
         try {
             App.setRoot("DetalhesDaConta");

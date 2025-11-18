@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+
 public class OperacaoValorController {
 
     @FXML private Label labelTituloOperacao;
@@ -31,6 +32,9 @@ public class OperacaoValorController {
     private UserProfile currentUser;
     private String tipoOperacao;
 
+    /**
+     * Inicializa o controller, carregando dados do usuário e configurando eventos.
+     */
     @FXML
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
@@ -41,6 +45,9 @@ public class OperacaoValorController {
         labelErro.setOpacity(0);
     }
 
+    /**
+     * Carrega e exibe os dados do usuário e o título da operação na tela.
+     */
     private void carregarDadosUsuario() {
         if (currentUser != null) {
             labelNumeroConta.setText(currentUser.getNumeroConta());
@@ -52,6 +59,9 @@ public class OperacaoValorController {
         }
     }
 
+    /**
+     * Configura os eventos de clique e hover para os botões e painéis da tela.
+     */
     private void configurarEventos() {
         paneVinte.setOnMouseClicked(e -> {
             AnimationUtils.buttonClickAnimation(paneVinte);
@@ -97,6 +107,9 @@ public class OperacaoValorController {
         AnimationUtils.setupNodeHoverEffects(paneLimpar);
     }
 
+    /**
+     * Lida com a continuação da operação, validando o valor e avançando para a tela de confirmação.
+     */
     private void handleContinuar() {
         String valorTexto = valorField.getText().replace(",", ".");
         if (valorTexto.isEmpty()) {
@@ -111,6 +124,7 @@ public class OperacaoValorController {
                 return;
             }
 
+            // Verifica se há saldo suficiente para saque ou transferência
             if (tipoOperacao.equals("Saque") || tipoOperacao.equals("Transferencia")) {
                 if (valor > currentUser.getSaldo()) {
                     exibirMensagemErro("Saldo insuficiente para realizar esta operação.");
@@ -130,6 +144,9 @@ public class OperacaoValorController {
         }
     }
 
+    /**
+     * Lida com a ação de voltar para a tela anterior.
+     */
     private void handleVoltar() {
         try {
             if (tipoOperacao.equals("Transferencia")) {
@@ -142,6 +159,10 @@ public class OperacaoValorController {
         }
     }
 
+    /**
+     * Adiciona um valor pré-definido ao campo de valor.
+
+     */
     private void adicionarValor(double valor) {
         String valorAtualTexto = valorField.getText();
         try {
@@ -152,6 +173,9 @@ public class OperacaoValorController {
         }
     }
 
+    /**
+     * Apaga o último caractere do campo de valor.
+     */
     private void handleApagar() {
         String texto = valorField.getText();
         if (texto != null && !texto.isEmpty()) {
@@ -159,6 +183,10 @@ public class OperacaoValorController {
         }
     }
 
+    /**
+     * Exibe uma mensagem de erro temporária na tela.
+
+     */
     private void exibirMensagemErro(String mensagem) {
         AnimationUtils.errorAnimation(valorField);
         labelErro.setText(mensagem);

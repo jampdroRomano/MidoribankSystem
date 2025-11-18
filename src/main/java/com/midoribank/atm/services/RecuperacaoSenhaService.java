@@ -5,6 +5,8 @@ import com.midoribank.atm.dao.UserDAO;
 import com.midoribank.atm.models.UserProfile;
 import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+
 
 public class RecuperacaoSenhaService {
 
@@ -20,11 +22,21 @@ public class RecuperacaoSenhaService {
         this.random = new Random();
     }
 
+    /**
+     * Gera um código numérico aleatório de 6 dígitos.
+
+     */
     private String gerarCodigoAleatorio() {
         int codigo = 100000 + random.nextInt(900000);
         return String.valueOf(codigo);
     }
 
+    /**
+     * Cria o corpo HTML do e-mail de recuperação de senha.
+
+
+
+     */
     private String criarCorpoEmail(String nomeUsuario, String codigo) {
         return String.format(
                 "<html lang=\"pt-BR\">" +
@@ -60,17 +72,20 @@ public class RecuperacaoSenhaService {
         );
     }
 
-    public java.util.concurrent.CompletableFuture<Boolean> iniciarRecuperacao(String email) {
+    /**
+     * Inicia o processo de recuperação de senha, gerando, salvando e enviando um código por e-mail.
+
+
+     */
+    public CompletableFuture<Boolean> iniciarRecuperacao(String email) {
         return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Enviando código...", () -> {
             UserProfile user = userDAO.getProfileBasico(email);
 
             if (user == null) {
                 System.err.println("Tentativa de recuperação para e-mail não cadastrado: " + email);
-                
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(1500); // Simula tempo de processamento para segurança
                 } catch (InterruptedException e) {}
-                
                 return false;
             }
 
@@ -90,19 +105,23 @@ public class RecuperacaoSenhaService {
                 emailEnviado = emailService.enviarEmail(email, assunto, corpoEmail).join(); 
             } else {
                 System.err.println("Falha ao salvar o código no banco para o usuário: " + usuarioId);
-                emailEnviado = false;
             }
 
             try {
                 Thread.sleep(1500); 
-            } catch (InterruptedException e) {
-            }
+            } catch (InterruptedException e) {}
 
             return emailEnviado; 
         });
     }
 
-    public java.util.concurrent.CompletableFuture<Boolean> validarCodigo(String email, String codigo) {
+    /**
+     * Valida o código de recuperação fornecido pelo usuário.
+
+
+
+     */
+    public CompletableFuture<Boolean> validarCodigo(String email, String codigo) {
         return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Validando código...", () -> {
             UserProfile user = userDAO.getProfileBasico(email);
             if (user == null) {
@@ -113,14 +132,19 @@ public class RecuperacaoSenhaService {
 
             try {
                 Thread.sleep(1000); 
-            } catch (InterruptedException e) {
-            }
+            } catch (InterruptedException e) {}
 
             return codigoValido; 
         });
     }
 
-    public java.util.concurrent.CompletableFuture<Boolean> redefinirSenha(String email, String novaSenha) {
+    /**
+     * Redefine a senha do usuário após a validação do código.
+
+
+
+     */
+    public CompletableFuture<Boolean> redefinirSenha(String email, String novaSenha) {
         return com.midoribank.atm.utils.LoadingUtils.runWithLoading("Redefinindo senha...", () -> {
             UserProfile user = userDAO.getProfileBasico(email);
             if (user == null) {
@@ -141,6 +165,4 @@ public class RecuperacaoSenhaService {
             return sucesso;
         });
     }
-
-    
 }

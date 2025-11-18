@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+
 public class TransferenciaController {
 
     @FXML private Pane rootPane;
@@ -43,6 +44,9 @@ public class TransferenciaController {
     private ContaDAO contaDAO;
     private UserProfile currentUser;
 
+    /**
+     * Inicializa o controller, configurando o DAO, carregando dados do usuário e eventos.
+     */
     @FXML
     public void initialize() {
         this.contaDAO = new ContaDAO();
@@ -53,6 +57,9 @@ public class TransferenciaController {
         configurarEventos();
     }
 
+    /**
+     * Carrega e exibe os dados do usuário logado na tela.
+     */
     private void carregarDadosUsuario() {
         if (currentUser != null) {
             labelNumeroConta.setText(currentUser.getNumeroConta());
@@ -60,6 +67,9 @@ public class TransferenciaController {
         }
     }
 
+    /**
+     * Configura os eventos de clique para os botões de continuar e voltar.
+     */
     private void configurarEventos() {
         paneVoltar.setOnMouseClicked(e -> {
             AnimationUtils.buttonClickAnimation(paneVoltar);
@@ -73,6 +83,9 @@ public class TransferenciaController {
         AnimationUtils.setupNodeHoverEffects(paneContinuar);
     }
 
+    /**
+     * Limpa todas as mensagens de erro da tela.
+     */
     private void limparErros() {
         errorLabelAgencia.setVisible(false);
         errorLabelDigitoAgencia.setVisible(false);
@@ -81,6 +94,10 @@ public class TransferenciaController {
         labelErroGeral.setVisible(false);
     }
 
+    /**
+     * Valida se os campos de agência e conta foram preenchidos.
+
+     */
     private boolean validarCampos() {
         limparErros();
         boolean valido = true;
@@ -113,6 +130,9 @@ public class TransferenciaController {
         return valido;
     }
 
+    /**
+     * Lida com a ação de voltar para a tela inicial.
+     */
     private void handleVoltar() {
         try {
             App.setRoot("home");
@@ -121,6 +141,9 @@ public class TransferenciaController {
         }
     }
 
+    /**
+     * Lida com a continuação da transferência, validando os campos e buscando a conta de destino.
+     */
     private void handleContinuar() {
         if (!validarCampos()) {
             return;
@@ -129,6 +152,7 @@ public class TransferenciaController {
         String agencia = fieldAgencia.getText().trim() + "-" + fieldDigitoAgencia.getText().trim();
         String conta = fieldConta.getText().trim() + "-" + fieldDigitoConta.getText().trim();
 
+        // Impede a transferência para a própria conta
         if (agencia.equals(currentUser.getAgencia()) && conta.equals(currentUser.getNumeroConta())) {
             exibirErroGeral("Você não pode transferir para a sua própria conta.");
             return;
@@ -136,12 +160,14 @@ public class TransferenciaController {
 
         LoadingUtils.showLoading("Verificando conta...");
 
+        // Busca a conta de destino de forma assíncrona
         CompletableFuture.supplyAsync(() -> contaDAO.getProfileByConta(agencia, conta))
             .thenAccept(contaDestino -> {
                 javafx.application.Platform.runLater(() -> {
                     if (contaDestino != null) {
                         SessionManager.setContaDestino(contaDestino);
 
+                        // Pausa para o usuário ver a tela de loading antes de avançar
                         PauseTransition pause = new PauseTransition(Duration.seconds(1));
                         pause.setOnFinished(event -> {
                             try {
@@ -162,6 +188,10 @@ public class TransferenciaController {
             });
     }
 
+    /**
+     * Exibe uma mensagem de erro geral na tela.
+
+     */
     private void exibirErroGeral(String mensagem) {
         labelErroGeral.setText(mensagem);
         AnimationUtils.errorAnimation(rootPane);

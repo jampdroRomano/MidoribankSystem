@@ -8,8 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public class ContaDAO {
 
+    /**
+     * Cadastra uma nova conta no banco de dados.
+
+     */
     public int cadastrarConta(int usuarioId, String agencia, String numeroConta, double saldoInicial, Connection conn) {
         String sql = "INSERT INTO conta (usuario_id, agencia, numero_conta, saldo) VALUES (?, ?, ?, ?)";
 
@@ -35,6 +40,10 @@ public class ContaDAO {
         return -1;
     }
 
+    /**
+     * Atualiza o saldo de uma conta no banco de dados.
+
+     */
     public boolean atualizarSaldo(String numeroConta, double novoSaldo, Connection conn) {
         String sql = "UPDATE conta SET saldo = ? WHERE numero_conta = ?";
 
@@ -52,6 +61,10 @@ public class ContaDAO {
         }
     }
 
+    /**
+     * Encontra o ID de uma conta com base na agência e número da conta.
+
+     */
     public int findContaIdByAgenciaAndNumero(String agencia, String numeroConta) {
         String sql = "SELECT id FROM conta WHERE agencia = ? AND numero_conta = ?";
 
@@ -72,6 +85,10 @@ public class ContaDAO {
         return -1;
     }
 
+    /**
+     * Obtém o perfil completo do usuário com base nos dados da conta.
+
+     */
     public UserProfile getProfileByConta(String agencia, String numeroConta) {
         String sql = "SELECT " +
                 "  u.id, c.id AS conta_id, u.nome, u.email, " +

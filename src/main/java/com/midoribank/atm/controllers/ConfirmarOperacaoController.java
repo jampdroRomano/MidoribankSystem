@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
+
 public class ConfirmarOperacaoController {
 
     @FXML private Label labelNome;
@@ -27,6 +28,9 @@ public class ConfirmarOperacaoController {
     private double valorOperacao;
     private String tipoOperacao;
 
+    /**
+     * Inicializa o controller, carregando os dados da operação para confirmação.
+     */
     @FXML
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
@@ -37,6 +41,9 @@ public class ConfirmarOperacaoController {
         configurarEventos();
     }
 
+    /**
+     * Carrega e exibe os dados da operação na tela.
+     */
     private void carregarDados() {
         if (currentUser != null) {
             labelNome.setText(currentUser.getNome());
@@ -52,6 +59,9 @@ public class ConfirmarOperacaoController {
         labelData.setText(hoje.format(formatador));
     }
 
+    /**
+     * Configura os eventos de clique para os botões de confirmar e voltar.
+     */
     private void configurarEventos() {
         if (paneConfirmar != null) {
             paneConfirmar.setOnMouseClicked(e -> handleContinuarParaSenha());
@@ -63,6 +73,9 @@ public class ConfirmarOperacaoController {
         }
     }
 
+    /**
+     * Lida com o clique no botão de continuar, avançando para a tela de inserção de PIN.
+     */
     private void handleContinuarParaSenha() {
         SessionManager.setPinEntryContext(SessionManager.PinEntryContext.OPERACAO_FINANCEIRA);
         try {
@@ -73,7 +86,9 @@ public class ConfirmarOperacaoController {
         }
     }
 
-
+    /**
+     * Lida com o clique no botão de voltar, retornando para a tela anterior.
+     */
     private void handleVoltar() {
         try {
             String telaAnterior = "home";
@@ -88,6 +103,10 @@ public class ConfirmarOperacaoController {
         }
     }
 
+    /**
+     * Exibe uma mensagem de erro em um pop-up.
+
+     */
     private void exibirMensagemErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");

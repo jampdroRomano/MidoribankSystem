@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
+
 public class ConfirmarContaDestinoController {
 
     @FXML private Label labelNome;
@@ -20,16 +21,21 @@ public class ConfirmarContaDestinoController {
 
     private UserProfile contaDestino;
 
+    /**
+     * Inicializa o controller, exibindo os dados da conta de destino para confirmação.
+     */
     @FXML
     public void initialize() {
         this.contaDestino = SessionManager.getContaDestino();
 
+        // Valida se a conta de destino foi carregada
         if (this.contaDestino == null) {
             exibirMensagemErro("Erro", "Não foi possível carregar os dados da conta de destino. Tente novamente.");
             handleVoltar();
             return;
         }
 
+        // Preenche os labels com os dados da conta de destino
         labelNome.setText(this.contaDestino.getNome());
         labelAgencia.setText(this.contaDestino.getAgencia());
         labelConta.setText(this.contaDestino.getNumeroConta());
@@ -37,6 +43,9 @@ public class ConfirmarContaDestinoController {
         configurarEventos();
     }
 
+    /**
+     * Configura os eventos de clique para os botões de confirmar e voltar.
+     */
     private void configurarEventos() {
         if (paneConfirmar != null) {
             paneConfirmar.setOnMouseClicked(e -> handleContinuar());
@@ -48,6 +57,9 @@ public class ConfirmarContaDestinoController {
         }
     }
 
+    /**
+     * Lida com o clique no botão de continuar, avançando para a tela de inserção de valor.
+     */
     @FXML
     private void handleContinuar() {
         try {
@@ -58,6 +70,9 @@ public class ConfirmarContaDestinoController {
         }
     }
 
+    /**
+     * Lida com o clique no botão de voltar, limpando os dados da transferência e retornando para a tela anterior.
+     */
     @FXML
     private void handleVoltar() {
         try {
@@ -68,6 +83,11 @@ public class ConfirmarContaDestinoController {
         }
     }
 
+    /**
+     * Exibe uma mensagem de erro em um pop-up.
+
+
+     */
     private void exibirMensagemErro(String titulo, String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titulo);

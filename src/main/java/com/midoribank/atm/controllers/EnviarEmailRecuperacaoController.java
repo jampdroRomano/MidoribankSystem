@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 
+
 public class EnviarEmailRecuperacaoController {
 
     @FXML
@@ -26,6 +27,9 @@ public class EnviarEmailRecuperacaoController {
 
     private RecuperacaoSenhaService recuperacaoService;
 
+    /**
+     * Inicializa o controller, configurando o serviço de recuperação de senha e as animações.
+     */
     @FXML
     public void initialize() {
         this.recuperacaoService = new RecuperacaoSenhaService();
@@ -34,19 +38,25 @@ public class EnviarEmailRecuperacaoController {
         AnimationUtils.setupNodeHoverEffects(btnVoltarLogin);
     }
 
+    /**
+     * Lida com o envio do código de recuperação para o e-mail do usuário.
+     */
     @FXML
     private void handleEnviarCodigo() {
         String email = emailField.getText();
 
+        // Valida o formato do e-mail
         if (email.isEmpty() || !email.contains("@") || !email.contains(".")) {
             errorLabel.setText("Formato de e-mail inválido.");
             AnimationUtils.errorAnimation(emailField);
             return;
         }
 
+        // Limpa a sessão de recuperação e define o novo e-mail
         SessionManager.clearRecuperacao();
         SessionManager.setEmailRecuperacao(email);
 
+        // Inicia o processo de recuperação de senha
         recuperacaoService.iniciarRecuperacao(email).thenAccept(sucesso -> {
             Platform.runLater(() -> {
                 if (sucesso) {
@@ -63,11 +73,19 @@ public class EnviarEmailRecuperacaoController {
         });
     }
 
+    /**
+     * Lida com a ação de voltar para a tela de login.
+
+     */
     @FXML
     private void handleVoltar() throws IOException {
         App.setRoot("Login");
     }
 
+    /**
+     * Exibe uma mensagem de erro em um pop-up.
+
+     */
     private void exibirMensagemErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");

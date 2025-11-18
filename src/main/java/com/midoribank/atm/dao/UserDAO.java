@@ -8,8 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public class UserDAO {
 
+    /**
+     * Autentica um usuário com base no e-mail e senha.
+
+     */
     public boolean autenticar(String email, String senha) {
         String sql = "SELECT senha FROM usuario WHERE email = ?";
 
@@ -20,6 +25,7 @@ public class UserDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String senhaHashBanco = rs.getString("senha");
+                    // Compara a senha fornecida com o hash armazenado no banco
                     return CriptografiaUtils.checkPassword(senha, senhaHashBanco);
                 }
             }
@@ -29,6 +35,10 @@ public class UserDAO {
         return false;
     }
 
+    /**
+     * Obtém o perfil completo de um usuário, incluindo dados da conta e do cartão.
+
+     */
     public UserProfile getProfile(String email) {
         String sql = "SELECT " +
                 "  u.id AS usuario_id, u.nome, u.email, " +
@@ -69,6 +79,10 @@ public class UserDAO {
         return null;
     }
 
+    /**
+     * Obtém dados básicos de um usuário (ID, nome, e-mail).
+
+     */
     public UserProfile getProfileBasico(String email) {
         String sql = "SELECT id, nome, email FROM usuario WHERE email = ?";
 
@@ -91,6 +105,10 @@ public class UserDAO {
         return null;
     }
 
+    /**
+     * Cadastra um novo usuário no banco de dados.
+
+     */
     public int cadastrarUsuario(String nome, String email, String senha, Connection conn) {
         String sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
 
@@ -116,6 +134,10 @@ public class UserDAO {
         return -1;
     }
 
+    /**
+     * Verifica se um e-mail já está cadastrado no banco de dados.
+
+     */
     public boolean verificarEmailExistente(String email) {
         String sql = "SELECT 1 FROM usuario WHERE email = ?";
 

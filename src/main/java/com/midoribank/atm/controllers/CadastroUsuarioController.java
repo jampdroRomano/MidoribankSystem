@@ -16,6 +16,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
+
 public class CadastroUsuarioController {
 
     @FXML private TextField nomeField;
@@ -27,10 +28,14 @@ public class CadastroUsuarioController {
 
     private UserDAO userDAO;
 
+    /**
+     * Inicializa o controller, configurando o DAO, os handlers de eventos e as animações.
+     */
     @FXML
     public void initialize() {
         this.userDAO = new UserDAO();
 
+        // Configura o botão de cadastro
         if (cadastrarButton != null) {
             cadastrarButton.setOnAction(e -> handleCadastroClick());
             AnimationUtils.setupButtonHoverEffects(cadastrarButton);
@@ -40,6 +45,7 @@ public class CadastroUsuarioController {
             System.err.println("Aviso: cadastrarButton não encontrado no FXML.");
         }
 
+        // Configura o botão de voltar
         if (btnVoltarCadastrar != null) {
             btnVoltarCadastrar.setOnMouseClicked(e -> handleVoltarClick());
             AnimationUtils.setupNodeHoverEffects(btnVoltarCadastrar);
@@ -47,9 +53,13 @@ public class CadastroUsuarioController {
             System.err.println("Aviso: btnVoltarCadastrar não encontrado no FXML.");
         }
 
+        // Foca no campo de nome ao iniciar a tela
         Platform.runLater(() -> nomeField.requestFocus());
     }
 
+    /**
+     * Lida com o clique no botão de cadastro, validando os dados do usuário e avançando para a próxima etapa.
+     */
     private void handleCadastroClick() {
         String nome = nomeField.getText();
         String email = emailFieldCadastro.getText();
@@ -59,6 +69,7 @@ public class CadastroUsuarioController {
         boolean hasError = false;
         StringBuilder errorMessage = new StringBuilder();
 
+        // Validações dos campos de entrada
         if (nome.isEmpty()) {
             if (errorMessage.length() > 0) errorMessage.append("\n");
             errorMessage.append("- O campo nome não pode estar vazio.");
@@ -110,6 +121,7 @@ public class CadastroUsuarioController {
             return;
         }
 
+        // Verifica se o e-mail já existe no banco de dados
         LoadingUtils.runWithLoading("Verificando dados...", () -> {
             boolean emailJaExiste = userDAO.verificarEmailExistente(email);
 
@@ -118,6 +130,7 @@ public class CadastroUsuarioController {
                     exibirMensagemErro("Este e-mail já está cadastrado.");
                     AnimationUtils.errorAnimation(emailFieldCadastro);
                 } else {
+                    // Salva os dados do usuário na sessão e avança para a tela de cadastro de cartão
                     SessionManager.setCadastroUsuario(nome, email, senha);
                     try {
                         App.setRoot("CadastroCartao");
@@ -130,6 +143,11 @@ public class CadastroUsuarioController {
         });
     }
 
+    /**
+     * Valida se a senha é forte o suficiente.
+
+
+     */
     private boolean isStrongPassword(String password) {
         if (password.length() < 8) {
             return false;
@@ -149,6 +167,11 @@ public class CadastroUsuarioController {
         return hasUpper && hasLower && hasDigit;
     }
 
+    /**
+     * Valida se o e-mail tem um formato válido e pertence a um domínio suportado.
+
+
+     */
     private boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         if (!email.matches(emailRegex)) {
@@ -160,6 +183,9 @@ public class CadastroUsuarioController {
         return validDomains.contains(domain);
     }
 
+    /**
+     * Lida com o clique no botão de voltar, retornando para a tela de login.
+     */
     @FXML
     private void handleVoltarClick() {
         try {
@@ -170,6 +196,10 @@ public class CadastroUsuarioController {
         }
     }
 
+    /**
+     * Exibe uma mensagem de erro em um pop-up.
+
+     */
     private void exibirMensagemErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro no Cadastro");
