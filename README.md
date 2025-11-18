@@ -1,6 +1,6 @@
 # 🚀 Projeto Midoribank
 
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Status](https://img.shields.io/badge/status-%20concluido-green)
 ![Frontend](https://img.shields.io/badge/tecnologia-JavaFx-blue)
 ![Backend](https://img.shields.io/badge/tecnologia-Java-red)
 ![Banco](https://img.shields.io/badge/banco-MySql-green)
