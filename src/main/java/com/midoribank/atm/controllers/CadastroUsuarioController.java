@@ -14,7 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.Cursor;
 
 
 public class CadastroUsuarioController {
@@ -23,6 +25,8 @@ public class CadastroUsuarioController {
     @FXML private TextField emailFieldCadastro;
     @FXML private PasswordField senhaFieldCadastro;
     @FXML private PasswordField confirmeSenha;
+    @FXML private TextField senhaTextField;
+    @FXML private TextField confirmeSenhaTextField;
     @FXML private Button cadastrarButton;
     @FXML private ImageView btnVoltarCadastrar;
     @FXML private Label nomeErrorLabel;
@@ -30,9 +34,15 @@ public class CadastroUsuarioController {
     @FXML private Label senhaErrorLabel;
     @FXML private Label confirmeSenhaErrorLabel;
     @FXML private Label cadastroErrorLabel;
-    
+    @FXML private ImageView toggleSenha;
+    @FXML private ImageView toggleConfirmeSenha;
 
     private UserDAO userDAO;
+    private boolean isSenhaVisivel = false;
+    private boolean isConfirmeSenhaVisivel = false;
+    
+    private Image openEye;
+    private Image closeEye;
 
     /**
      * Inicializa o controller, configurando o DAO, os handlers de eventos e as animações.
@@ -41,6 +51,14 @@ public class CadastroUsuarioController {
     public void initialize() {
         this.userDAO = new UserDAO();
 
+        openEye = new Image(getClass().getResourceAsStream("/com/midoribank/atm/CadastroUsuario/HugeIconOpen.png"));
+        closeEye = new Image(getClass().getResourceAsStream("/com/midoribank/atm/CadastroUsuario/HugeIconClose.png"));
+        
+        senhaTextField.setManaged(false);
+        senhaTextField.setVisible(false);
+        confirmeSenhaTextField.setManaged(false);
+        confirmeSenhaTextField.setVisible(false);
+        
         // Configura o botão de cadastro
         if (cadastrarButton != null) {
             cadastrarButton.setOnAction(e -> handleCadastroClick());
@@ -57,6 +75,16 @@ public class CadastroUsuarioController {
             AnimationUtils.setupNodeHoverEffects(btnVoltarCadastrar);
         } else {
             System.err.println("Aviso: btnVoltarCadastrar não encontrado no FXML.");
+        }
+        
+        if (toggleSenha != null) {
+            toggleSenha.setOnMouseEntered(e -> toggleSenha.setCursor(Cursor.HAND));
+            toggleSenha.setOnMouseExited(e -> toggleSenha.setCursor(Cursor.DEFAULT));
+        }
+
+        if (toggleConfirmeSenha != null) {
+            toggleConfirmeSenha.setOnMouseEntered(e -> toggleConfirmeSenha.setCursor(Cursor.HAND));
+            toggleConfirmeSenha.setOnMouseExited(e -> toggleConfirmeSenha.setCursor(Cursor.DEFAULT));
         }
         
         nomeField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -76,10 +104,65 @@ public class CadastroUsuarioController {
             cadastroErrorLabel.setText("");
         });
 
+        senhaTextField.textProperty().bindBidirectional(senhaFieldCadastro.textProperty());
+        confirmeSenhaTextField.textProperty().bindBidirectional(confirmeSenha.textProperty());
+        
         // Foca no campo de nome ao iniciar a tela
         Platform.runLater(() -> nomeField.requestFocus());
     }
 
+    @FXML
+    private void handleToggleSenha() {
+        isSenhaVisivel = !isSenhaVisivel;
+        if (isSenhaVisivel) {
+            mostrarSenha();
+        } else {
+            ocultarSenha();
+        }
+    }
+    
+    @FXML
+    private void handleToggleConfirmeSenha() {
+        isConfirmeSenhaVisivel = !isConfirmeSenhaVisivel;
+        if (isConfirmeSenhaVisivel) {
+            mostrarConfirmeSenha();
+        } else {
+            ocultarConfirmeSenha();
+        }
+    }
+
+    private void mostrarSenha() {
+        senhaFieldCadastro.setManaged(false);
+        senhaFieldCadastro.setVisible(false);
+        senhaTextField.setManaged(true);
+        senhaTextField.setVisible(true);
+        toggleSenha.setImage(openEye);
+    }
+
+    private void ocultarSenha() {
+        senhaTextField.setManaged(false);
+        senhaTextField.setVisible(false);
+        senhaFieldCadastro.setManaged(true);
+        senhaFieldCadastro.setVisible(true);
+        toggleSenha.setImage(closeEye);
+    }
+    
+    private void mostrarConfirmeSenha() {
+        confirmeSenha.setManaged(false);
+        confirmeSenha.setVisible(false);
+        confirmeSenhaTextField.setManaged(true);
+        confirmeSenhaTextField.setVisible(true);
+        toggleConfirmeSenha.setImage(openEye);
+    }
+
+    private void ocultarConfirmeSenha() {
+        confirmeSenhaTextField.setManaged(false);
+        confirmeSenhaTextField.setVisible(false);
+        confirmeSenha.setManaged(true);
+        confirmeSenha.setVisible(true);
+        toggleConfirmeSenha.setImage(closeEye);
+    }
+    
     /**
      * Lida com o clique no botão de cadastro, validando os dados do usuário e avançando para a próxima etapa.
      */

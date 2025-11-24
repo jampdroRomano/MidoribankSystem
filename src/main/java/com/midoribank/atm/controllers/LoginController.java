@@ -14,7 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 
 
 public class LoginController {
@@ -23,6 +25,8 @@ public class LoginController {
     @FXML
     private PasswordField senhaField;
     @FXML
+    private TextField senhaTextField;
+    @FXML
     private Button cadastrarButton;
     @FXML
     private Button entrarButton;
@@ -30,6 +34,8 @@ public class LoginController {
     private ImageView btnVoltarLogin;
     @FXML
     private Label esqueciSenhaLabel;
+    @FXML
+    private ImageView toggleSenha;
 
     @FXML
     private Label emailErrorLabel;
@@ -37,8 +43,15 @@ public class LoginController {
     private Label senhaErrorLabel;
     @FXML
     private Label loginErrorLabel;
+    
+    @FXML
+    private StackPane senhaPane;
 
     private UserDAO userDAO;
+    private boolean isSenhaVisivel = false;
+    
+    private Image openEye;
+    private Image closeEye;
 
     public LoginController() {
         this.userDAO = new UserDAO();
@@ -51,12 +64,18 @@ public class LoginController {
     public void initialize() {
         System.out.println("LoginController inicializado.");
 
+        openEye = new Image(getClass().getResourceAsStream("/com/midoribank/atm/Login/HugeIconOpen.png"));
+        closeEye = new Image(getClass().getResourceAsStream("/com/midoribank/atm/Login/HugeIconClose.png"));
+        
+        senhaTextField.setManaged(false);
+        senhaTextField.setVisible(false);
+
         entrarButton.setOnAction(event -> autenticar());
         cadastrarButton.setOnAction(event -> handleAbrirCadastro());
-
+        
         AnimationUtils.setupButtonHoverEffects(entrarButton);
         AnimationUtils.setupButtonHoverEffects(cadastrarButton);
-
+        
         if (btnVoltarLogin != null) {
             AnimationUtils.setupNodeHoverEffects(btnVoltarLogin);
         } else {
@@ -78,6 +97,11 @@ public class LoginController {
             });
         }
         
+        if (toggleSenha != null) {
+            toggleSenha.setOnMouseEntered(e -> toggleSenha.setCursor(Cursor.HAND));
+            toggleSenha.setOnMouseExited(e -> toggleSenha.setCursor(Cursor.DEFAULT));
+        }
+        
         emailField.textProperty().addListener((observable, oldValue, newValue) -> {
             emailErrorLabel.setText("");
             senhaErrorLabel.setText("");
@@ -88,7 +112,36 @@ public class LoginController {
             senhaErrorLabel.setText("");
             loginErrorLabel.setText("");
         });
+        
+        senhaTextField.textProperty().bindBidirectional(senhaField.textProperty());
     }
+    
+    @FXML
+    private void handleToggleSenha() {
+        isSenhaVisivel = !isSenhaVisivel;
+        if (isSenhaVisivel) {
+            mostrarSenha();
+        } else {
+            ocultarSenha();
+        }
+    }
+    
+    private void mostrarSenha() {
+        senhaField.setManaged(false);
+        senhaField.setVisible(false);
+        senhaTextField.setManaged(true);
+        senhaTextField.setVisible(true);
+        toggleSenha.setImage(openEye);
+    }
+
+    private void ocultarSenha() {
+        senhaTextField.setManaged(false);
+        senhaTextField.setVisible(false);
+        senhaField.setManaged(true);
+        senhaField.setVisible(true);
+        toggleSenha.setImage(closeEye);
+    }
+
 
     /**
      * Navega para a tela de recuperação de senha.

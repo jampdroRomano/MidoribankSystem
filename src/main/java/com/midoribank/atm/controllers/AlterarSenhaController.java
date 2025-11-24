@@ -12,6 +12,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.Cursor;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
@@ -21,6 +24,14 @@ public class AlterarSenhaController {
     private PasswordField novaSenhaField;
     @FXML
     private PasswordField confirmarSenhaField;
+    @FXML
+    private TextField novaSenhaTextField;
+    @FXML
+    private TextField confirmarSenhaTextField;
+    @FXML
+    private ImageView toggleNovaSenha;
+    @FXML
+    private ImageView toggleConfirmarSenha;
     @FXML
     private Label errorLabel;
     @FXML
@@ -34,12 +45,36 @@ public class AlterarSenhaController {
 
     private RecuperacaoSenhaService recuperacaoService;
 
+    private boolean isNovaSenhaVisivel = false;
+    private boolean isConfirmarSenhaVisivel = false;
+    
+    private Image openEye;
+    private Image closeEye;
+
     /**
      * Inicializa o controller, configurando os serviços, animações e handlers de eventos.
      */
     @FXML
     public void initialize() {
         this.recuperacaoService = new RecuperacaoSenhaService();
+        
+        openEye = new Image(getClass().getResourceAsStream("/com/midoribank/atm/AlterarSenha/HugeIconOpen.png"));
+        closeEye = new Image(getClass().getResourceAsStream("/com/midoribank/atm/AlterarSenha/HugeIconClose.png"));
+        
+        novaSenhaTextField.setManaged(false);
+        novaSenhaTextField.setVisible(false);
+        confirmarSenhaTextField.setManaged(false);
+        confirmarSenhaTextField.setVisible(false);
+
+        novaSenhaTextField.textProperty().bindBidirectional(novaSenhaField.textProperty());
+        confirmarSenhaTextField.textProperty().bindBidirectional(confirmarSenhaField.textProperty());
+        
+        toggleNovaSenha.setOnMouseEntered(e -> toggleNovaSenha.setCursor(Cursor.HAND));
+        toggleNovaSenha.setOnMouseExited(e -> toggleNovaSenha.setCursor(Cursor.DEFAULT));
+
+        toggleConfirmarSenha.setOnMouseEntered(e -> toggleConfirmarSenha.setCursor(Cursor.HAND));
+        toggleConfirmarSenha.setOnMouseExited(e -> toggleConfirmarSenha.setCursor(Cursor.DEFAULT));
+        
         AnimationUtils.setupButtonHoverEffects(redefinirButton);
         
         AnimationUtils.setupNodeHoverEffects(btnVoltar); 
@@ -68,6 +103,58 @@ public class AlterarSenhaController {
                 e.printStackTrace();
             }
         });
+    }
+
+    @FXML
+    private void handleToggleNovaSenha() {
+        isNovaSenhaVisivel = !isNovaSenhaVisivel;
+        if (isNovaSenhaVisivel) {
+            mostrarNovaSenha();
+        } else {
+            ocultarNovaSenha();
+        }
+    }
+    
+    @FXML
+    private void handleToggleConfirmarSenha() {
+        isConfirmarSenhaVisivel = !isConfirmarSenhaVisivel;
+        if (isConfirmarSenhaVisivel) {
+            mostrarConfirmarSenha();
+        } else {
+            ocultarConfirmarSenha();
+        }
+    }
+
+    private void mostrarNovaSenha() {
+        novaSenhaField.setManaged(false);
+        novaSenhaField.setVisible(false);
+        novaSenhaTextField.setManaged(true);
+        novaSenhaTextField.setVisible(true);
+        toggleNovaSenha.setImage(openEye);
+    }
+
+    private void ocultarNovaSenha() {
+        novaSenhaTextField.setManaged(false);
+        novaSenhaTextField.setVisible(false);
+        novaSenhaField.setManaged(true);
+        novaSenhaField.setVisible(true);
+        toggleNovaSenha.setImage(closeEye);
+    }
+    
+    private void mostrarConfirmarSenha() {
+        confirmarSenhaField.setManaged(false);
+        confirmarSenhaField.setVisible(false);
+        confirmarSenhaTextField.setManaged(true);
+        confirmarSenhaTextField.setVisible(true);
+        toggleConfirmarSenha.setImage(openEye);
+    }
+
+    private void ocultarConfirmarSenha() {
+        confirmarSenhaTextField.setManaged(false);
+        confirmarSenhaTextField.setVisible(false);
+        confirmarSenhaField.setManaged(true);
+        confirmarSenhaField.setVisible(true);
+        toggleConfirmarSenha.setImage(closeEye);
     }
 
     /**

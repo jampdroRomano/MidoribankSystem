@@ -9,6 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -65,18 +66,34 @@
                   </TextField>
                </children>
             </Pane>
-            <Pane layoutX="112.0" layoutY="297.0" prefHeight="65.0" prefWidth="482.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+            <StackPane fx:id="senhaPane" layoutX="112.0" layoutY="297.0" prefHeight="65.0" prefWidth="482.0" style="-fx-background-color: white; -fx-background-radius: 10;">
                <children>
                   <PasswordField fx:id="senhaField" prefHeight="65.0" prefWidth="482.0" promptText="Digite a senha" style="-fx-background-radius: 10;">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <padding>
-                        <Insets left="30.0" right="30.0" />
+                        <Insets left="30.0" right="45.0" />
                      </padding>
                   </PasswordField>
+                  <TextField fx:id="senhaTextField" managed="false" prefHeight="65.0" prefWidth="482.0" promptText="Digite a senha" style="-fx-background-radius: 10;" visible="false">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <padding>
+                        <Insets left="30.0" right="45.0" />
+                     </padding>
+                  </TextField>
+                  <ImageView fx:id="toggleSenha" fitHeight="28.0" fitWidth="28.0" onMouseClicked="#handleToggleSenha" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_RIGHT">
+                     <image>
+                        <Image url="@HugeIconClose.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets right="15.0" />
+                     </StackPane.margin>
+                  </ImageView>
                </children>
-            </Pane>
+            </StackPane>
             <Text fill="WHITE" layoutX="124.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
                <font>
                   <Font size="24.0" />
