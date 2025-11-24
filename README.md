@@ -50,8 +50,11 @@ MidoribankSystem/
 | RF03  | Recuperação de Senha        | Implementa um fluxo de recuperação de senha. O usuário informa o email, recebe um código de 6 dígitos, valida o código e redefine a senha         |
 | RF04  | Operação de Saque        | Permite ao usuário sacar dinheiro, validando o saldo disponível e exigindo a senha do cartão
 | RF05  | Operação de Depósito     | Permite ao usuário depositar dinheiro em sua conta                                    |
-| RF06  | Transferência      | UI para iniciar transferência para outra conta (em desenvolvimento)      |
-| RF07  | Funções Futuras     | Telas de Extrato, Cartão de Crédito e Detalhes da Conta estão presentes, mas marcadas como "em desenvolvimento         |
+| RF06  | Operação de Transferência      | UI para iniciar transferência para outra conta (em desenvolvimento)      |
+| RF07  | Extrato (Visualização)    | Exibe o histórico de movimentações da conta (Saques, Depósitos, Transferências), listando a data, hora, tipo e valor de cada transação.      |
+| RF07.1  | Exportar Extrato   | Permite exportar o extrato como um arquivo PDF, com opções para filtrar as movimentações dos últimos 30, 60 ou 90 dias. O arquivo é gerado na pasta Desktop do usuário.    |
+| RF08  | Dados do Cartão   | Exibe na tela os dados do cartão de débito virtual do usuário: nome do titular, número completo do cartão e o código CVV.   |
+| RF09  | Detalhes da Conta   | Apresenta as informações cadastrais e bancárias do usuário: Nome completo, E-mail, Agência, Número da Conta e Saldo atual.   |
 
 
 ---
