@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" style="-fx-background-color: radial-gradient(center 55% 50%, radius 65%, #5a5062, #292530); -fx-background: ;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.midoribank.atm.controllers.LoginController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" style="-fx-background-color: radial-gradient(center 55% 50%, radius 65%, #5a5062, #292530); -fx-background: ;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.midoribank.atm.controllers.LoginController">
    <children>
       <Pane layoutX="174.0" layoutY="97.0" prefHeight="572.0" prefWidth="703.0" style="-fx-background-color: #27232A; -fx-background-radius: 10;">
          <children>
@@ -53,7 +53,7 @@
                   <Font size="36.0" />
                </font>
             </Text>
-            <Pane layoutX="111.0" layoutY="182.0" prefHeight="65.0" prefWidth="482.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+            <Pane layoutX="112.0" layoutY="180.0" prefHeight="65.0" prefWidth="482.0" style="-fx-background-color: white; -fx-background-radius: 10;">
                <children>
                   <TextField fx:id="emailField" prefHeight="65.0" prefWidth="482.0" promptText="Insira o email" style="-fx-background-radius: 10;">
                      <font>
@@ -65,7 +65,7 @@
                   </TextField>
                </children>
             </Pane>
-            <Pane layoutX="111.0" layoutY="282.0" prefHeight="65.0" prefWidth="482.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+            <Pane layoutX="112.0" layoutY="297.0" prefHeight="65.0" prefWidth="482.0" style="-fx-background-color: white; -fx-background-radius: 10;">
                <children>
                   <PasswordField fx:id="senhaField" prefHeight="65.0" prefWidth="482.0" promptText="Digite a senha" style="-fx-background-radius: 10;">
                      <font>
@@ -77,27 +77,27 @@
                   </PasswordField>
                </children>
             </Pane>
-            <Text fill="WHITE" layoutX="123.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
+            <Text fill="WHITE" layoutX="124.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="119.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Senha">
+            <Text fill="WHITE" layoutX="120.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Senha">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Label fx:id="esqueciSenhaLabel" layoutX="119.0" layoutY="364.0" onMouseClicked="#handleEsqueciMinhaSenha" text="Esqueci minha senha" textFill="WHITE">
+            <Label fx:id="esqueciSenhaLabel" layoutX="128.0" layoutY="384.0" onMouseClicked="#handleEsqueciMinhaSenha" text="Esqueci minha senha" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="cadastrarButton" layoutX="111.0" layoutY="407.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="230.0" style="-fx-background-radius: 25; -fx-font-weight: SemiBold; -fx-background-color: white;" text="Cadastrar">
+            <Button fx:id="cadastrarButton" layoutX="110.0" layoutY="427.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="230.0" style="-fx-background-radius: 25; -fx-font-weight: SemiBold; -fx-background-color: white;" text="Cadastrar">
                <font>
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button fx:id="entrarButton" layoutX="363.0" layoutY="407.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="230.0" style="-fx-border-radius: 25; -fx-background-color: transparent; -fx-background-radius: 25; -fx-border-color: white; -fx-border-width: 3;" text="Entrar" textFill="WHITE">
+            <Button fx:id="entrarButton" layoutX="362.0" layoutY="427.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="230.0" style="-fx-border-radius: 25; -fx-background-color: transparent; -fx-background-radius: 25; -fx-border-color: white; -fx-border-width: 3;" text="Entrar" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
@@ -107,6 +107,17 @@
                     <Image url="@btnVoltar.png" />
                 </image>
             </ImageView>
+            <Label fx:id="emailErrorLabel" layoutX="127.0" layoutY="249.0" prefHeight="20.0" prefWidth="466.0" style="-fx-font-weight: bold;" textFill="#dd0000">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="senhaErrorLabel" layoutX="127.0" layoutY="368.0" prefHeight="20.0" prefWidth="466.0" style="-fx-font-weight: bold;" textFill="#dd0000">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="loginErrorLabel" alignment="CENTER" layoutX="115.0" layoutY="500.0" prefHeight="27.0" prefWidth="474.0" style="-fx-font-weight: bold;" textFill="#dd0000" />
          </children>
       </Pane>
    </children>

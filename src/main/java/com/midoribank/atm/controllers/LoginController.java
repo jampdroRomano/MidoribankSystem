@@ -10,7 +10,6 @@ import java.io.IOException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -31,6 +30,13 @@ public class LoginController {
     private ImageView btnVoltarLogin;
     @FXML
     private Label esqueciSenhaLabel;
+
+    @FXML
+    private Label emailErrorLabel;
+    @FXML
+    private Label senhaErrorLabel;
+    @FXML
+    private Label loginErrorLabel;
 
     private UserDAO userDAO;
 
@@ -71,6 +77,17 @@ public class LoginController {
                 }
             });
         }
+        
+        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
+            emailErrorLabel.setText("");
+            senhaErrorLabel.setText("");
+        });
+
+        senhaField.textProperty().addListener((observable, oldValue, newValue) -> {
+            emailErrorLabel.setText("");
+            senhaErrorLabel.setText("");
+            loginErrorLabel.setText("");
+        });
     }
 
     /**
@@ -92,7 +109,7 @@ public class LoginController {
         } catch (IOException e) {
             System.err.println("Falha ao carregar opcoesLogin.fxml!");
             e.printStackTrace();
-            exibirMensagemErro("Não foi possível voltar para a tela anterior.");
+            loginErrorLabel.setText("Não foi possível voltar para a tela anterior.");
         }
     }
 
@@ -105,7 +122,7 @@ public class LoginController {
         } catch (IOException e) {
             System.err.println("Falha ao carregar CadastroUsuario.fxml!");
             e.printStackTrace();
-            exibirMensagemErro("Não foi possível abrir a tela de cadastro.");
+            loginErrorLabel.setText("Não foi possível abrir a tela de cadastro.");
         }
     }
 
@@ -117,7 +134,7 @@ public class LoginController {
         String senha = senhaField.getText();
 
         if (email.isEmpty() || senha.isEmpty()) {
-            exibirMensagemErro("Preencha todos os campos!");
+            emailErrorLabel.setText("Preencha todos os campos!");
             AnimationUtils.errorAnimation(emailField);
             AnimationUtils.errorAnimation(senhaField);
             return;
@@ -143,21 +160,9 @@ public class LoginController {
                 } else {
                     AnimationUtils.errorAnimation(emailField);
                     AnimationUtils.errorAnimation(senhaField);
-                    exibirMensagemErro("Email ou senha inválidos.");
+                    senhaErrorLabel.setText("Email ou senha inválidos.");
                 }
             });
         });
-    }
-
-    /**
-     * Exibe uma mensagem de erro em um pop-up.
-
-     */
-    private void exibirMensagemErro(String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
     }
 }

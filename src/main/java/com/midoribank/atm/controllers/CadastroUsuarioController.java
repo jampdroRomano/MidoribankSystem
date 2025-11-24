@@ -10,8 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -25,6 +25,12 @@ public class CadastroUsuarioController {
     @FXML private PasswordField confirmeSenha;
     @FXML private Button cadastrarButton;
     @FXML private ImageView btnVoltarCadastrar;
+    @FXML private Label nomeErrorLabel;
+    @FXML private Label emailErrorLabel;
+    @FXML private Label senhaErrorLabel;
+    @FXML private Label confirmeSenhaErrorLabel;
+    @FXML private Label cadastroErrorLabel;
+    
 
     private UserDAO userDAO;
 
@@ -52,6 +58,23 @@ public class CadastroUsuarioController {
         } else {
             System.err.println("Aviso: btnVoltarCadastrar não encontrado no FXML.");
         }
+        
+        nomeField.textProperty().addListener((observable, oldValue, newValue) -> {
+            nomeErrorLabel.setText("");
+        });
+        
+        emailFieldCadastro.textProperty().addListener((observable, oldValue, newValue) -> {
+            emailErrorLabel.setText("");
+        });
+        
+        senhaFieldCadastro.textProperty().addListener((observable, oldValue, newValue) -> {
+            senhaErrorLabel.setText("");
+        });
+        
+        confirmeSenha.textProperty().addListener((observable, oldValue, newValue) -> {
+            confirmeSenhaErrorLabel.setText("");
+            cadastroErrorLabel.setText("");
+        });
 
         // Foca no campo de nome ao iniciar a tela
         Platform.runLater(() -> nomeField.requestFocus());
@@ -67,57 +90,45 @@ public class CadastroUsuarioController {
         String confirmacaoSenha = confirmeSenha.getText();
 
         boolean hasError = false;
-        StringBuilder errorMessage = new StringBuilder();
 
-        // Validações dos campos de entrada
         if (nome.isEmpty()) {
-            if (errorMessage.length() > 0) errorMessage.append("\n");
-            errorMessage.append("- O campo nome não pode estar vazio.");
+            nomeErrorLabel.setText("O campo nome não pode estar vazio.");
             AnimationUtils.errorAnimation(nomeField);
             hasError = true;
         }
 
         if (email.isEmpty()) {
-            if (errorMessage.length() > 0) errorMessage.append("\n");
-            errorMessage.append("- O campo de e-mail não pode estar vazio.");
+            emailErrorLabel.setText("O campo de e-mail não pode estar vazio.");
             AnimationUtils.errorAnimation(emailFieldCadastro);
             hasError = true;
         } else if (!isValidEmail(email)) {
-            if (errorMessage.length() > 0) errorMessage.append("\n");
-            errorMessage.append("- O e-mail fornecido não é válido ou não é de um domínio suportado.");
+            emailErrorLabel.setText("O e-mail fornecido não é válido.");
             AnimationUtils.errorAnimation(emailFieldCadastro);
             hasError = true;
         }
 
         if (senha.isEmpty()) {
-            if (errorMessage.length() > 0) errorMessage.append("\n");
-            errorMessage.append("- O campo de senha não pode estar vazio.");
+            senhaErrorLabel.setText("O campo de senha não pode estar vazio.");
             AnimationUtils.errorAnimation(senhaFieldCadastro);
             hasError = true;
         } else if (!isStrongPassword(senha)) {
-            if (errorMessage.length() > 0) errorMessage.append("\n");
-            errorMessage.append("- A senha deve ter no mínimo 8 caracteres, incluindo uma letra maiúscula, uma minúscula e um número.");
+            senhaErrorLabel.setText("Senha fraca. Use 8+ caracteres com maiúscula, minúscula e número.");
             AnimationUtils.errorAnimation(senhaFieldCadastro);
             hasError = true;
         }
 
         if (confirmacaoSenha.isEmpty()) {
-            if (errorMessage.length() > 0) errorMessage.append("\n");
-            errorMessage.append("- O campo de confirmação de senha não pode estar vazio.");
+            confirmeSenhaErrorLabel.setText("O campo de confirmação de senha não pode estar vazio.");
             AnimationUtils.errorAnimation(confirmeSenha);
             hasError = true;
         } else if (!senha.isEmpty() && !senha.equals(confirmacaoSenha)) {
-            if (errorMessage.length() > 0) errorMessage.append("\n");
-            errorMessage.append("- As senhas não conferem.");
+            confirmeSenhaErrorLabel.setText("As senhas não conferem.");
             AnimationUtils.errorAnimation(senhaFieldCadastro);
             AnimationUtils.errorAnimation(confirmeSenha);
-            senhaFieldCadastro.clear();
-            confirmeSenha.clear();
             hasError = true;
         }
 
         if (hasError) {
-            exibirMensagemErro(errorMessage.toString());
             return;
         }
 
@@ -127,7 +138,7 @@ public class CadastroUsuarioController {
 
             Platform.runLater(() -> {
                 if (emailJaExiste) {
-                    exibirMensagemErro("Este e-mail já está cadastrado.");
+                    emailErrorLabel.setText("Este e-mail já está cadastrado.");
                     AnimationUtils.errorAnimation(emailFieldCadastro);
                 } else {
                     // Salva os dados do usuário na sessão e avança para a tela de cadastro de cartão
@@ -136,7 +147,7 @@ public class CadastroUsuarioController {
                         App.setRoot("CadastroCartao");
                     } catch (IOException e) {
                         e.printStackTrace();
-                        exibirMensagemErro("Não foi possível carregar a tela de cadastro de cartão.");
+                        cadastroErrorLabel.setText("Não foi possível carregar a tela de cadastro de cartão.");
                     }
                 }
             });
@@ -194,17 +205,5 @@ public class CadastroUsuarioController {
             System.err.println("Falha ao carregar Login.fxml!");
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Exibe uma mensagem de erro em um pop-up.
-
-     */
-    private void exibirMensagemErro(String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro no Cadastro");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
     }
 }
