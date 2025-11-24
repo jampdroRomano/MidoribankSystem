@@ -16,7 +16,7 @@
 
 ## 🔗 Links Importantes
 - **Protótipo (Figma)**: [Acessar protótipo](https://www.figma.com/design/o684O0pI69p8i0iEg3pWfs/Untitled?node-id=182-6)
-- **Documentação (Em produção)**: na pasta [`documentacao`](https://github.com/jampdroRomano/MidoribankSystem/blob/main/docs/Documenta%C3%A7%C3%A3o%20MidoriBank.pdf)
+- **Documentação**: na pasta [`documentacao`](https://github.com/jampdroRomano/MidoribankSystem/blob/main/docs/Documenta%C3%A7%C3%A3o%20MidoriBank.pdf)
 
 ---
 
@@ -100,11 +100,11 @@ mvn clean install
 
 ## 💻 Como Rodar o Projeto
 
-- Execute o script ```data/midoribank_database.sql``` apos criar o Schema midoribank no seu servidor MySQL.
+- Execute o script ```data/midoribank_database.sql``` no seu servidor MySQL.
 - Credenciais do Banco: Verifique se as credenciais do banco em ```src/main/java/com/midoribank/atm/dao/ConnectionFactory.java``` (usuário: root, senha: 1234) batem com as do seu servidor MySQL.
 - Configuração de Email: Siga os passos da seção 🔑 Configuração de Email.
 - Executar: Utilize o plugin do Maven para JavaFX:
-- Compilar em uma IDE (Intellij, NetBens, VsCode...)
+- Compilar em uma IDE (Intellij, NetBens, VsCode...) ou rode na raiz do projeto o comando:
 ```
 mvn clean javafx:run
 ```
@@ -112,7 +112,8 @@ mvn clean javafx:run
 ---
 
 ## 📂 Documentação
-Toda a documentação técnica e de banco de dados está no próprio código e no arquivo de schema:
+Toda a documentação técnica e de banco de dados está no próprio código e na documentação na seção 🔗 Links Importantes:
 - Schema do Banco: ```data/midoribank_database.sql```
 - Lógica de Negócio: ```src/main/java/com/midoribank/atm/services/```
 - Controladores das Telas: ```src/main/java/com/midoribank/atm/controllers/```
+- Interface: ```src/main/resources```
